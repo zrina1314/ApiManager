@@ -71,7 +71,6 @@ public class MenuService extends BaseService<Menu> implements IMenuService {
 		map.put("parentId|in", menuIds);
 		List<Menu> subMenus = findByMap(map, null, null);
 		List<MenuDto> menuVOs = new ArrayList<MenuDto>();
-		
 		Page page = new Page();
 		page.setSize(config.getSubMenuSize());
 		// 加载默认推荐项目菜单

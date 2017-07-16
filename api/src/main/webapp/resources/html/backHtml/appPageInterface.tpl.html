@@ -1,0 +1,104 @@
+<div class="r0 p10 pt0 col-xs-12" ng-controller="detailCtrl">
+	<form ng-submit="submitForm('back/appPage/relevanceInterface.do')">
+		<div class="col-xs-12 p0">
+			<div class="col-xs-12 p0">
+				<button type="button" class="ml5 mt1 btn btn-success btn-sm fr"
+					onclick="$('#sourceForm').click();">
+					<i class="iconfont">&#xe60d;</i>
+					&nbsp;提交
+				</button>
+				<div class="form-group w250">
+					<label class="sr-only" for="">搜索关键字</label>
+					<div class="input-group">
+						<div class="input-group-addon no-radius">搜索关键字</div>
+						<input ng-model="query"
+							class="form-control input-xs dis-in-blo w120 no-radius no-b-s">
+					</div>
+				</div>
+
+			</div>
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr class="BGEEE">
+						<th class="tc">所属模块</th>
+						<th class="tc">名称</th>
+						<th class="tc">Method</th>
+						<th class="tc">责任人</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in interfaces | filter:query">-
+						<td class="tc">{{item.customModule}}</td>
+						<td class="tc">{{item.interfaceName}}</td>
+						<td class="tc">{{item.requestMethod}}</td>
+						<td class="tc">{{item.responsiblePerson}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<button class="ndis" id="sourceForm" type="submit">提交</button>
+	</form>
+</div>
+
+<div class="cb"></div>
+<iframe name="hiddenFrame" class="ndis"></iframe>
+
+<script>
+	$(function() {
+		function initTableCheckbox() {
+			var $thr = $('table thead tr');
+			var $checkAllTh = $('<th class="tc w30"><input type="checkbox" id="checkAll" name="checkAll" /></th>');
+			/*将全选/反选复选框添加到表头最前，即增加一列*/
+			$thr.prepend($checkAllTh);
+			/*“全选/反选”复选框*/
+			var $checkAll = $thr.find('input');
+			$checkAll
+					.click(function(event) {
+						/*将所有行的选中状态设成全选框的选中状态*/
+						$tbr.find('input').prop('checked',
+								$(this).prop('checked'));
+						/*并调整所有选中行的CSS样式*/
+						if ($(this).prop('checked')) {
+							$tbr.find('input').parent().parent().addClass(
+									'warning');
+						} else {
+							$tbr.find('input').parent().parent().removeClass(
+									'warning');
+						}
+						/*阻止向上冒泡，以防再次触发点击操作*/
+						event.stopPropagation();
+					});
+			/*点击全选框所在单元格时也触发全选框的点击操作*/
+			$checkAllTh.click(function() {
+				$(this).find('input').click();
+			});
+			var $tbr = $('table tbody tr');
+			var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /></td>');
+			/*每一行都在最前面插入一个选中复选框的单元格*/
+			$tbr.prepend($checkItemTd);
+			/*点击每一行的选中复选框时*/
+			$tbr
+					.find('input')
+					.click(
+							function(event) {
+								/*调整选中行的CSS样式*/
+								$(this).parent().parent()
+										.toggleClass('warning');
+								/*如果已经被选中行的行数等于表格的数据行数，将全选框设为选中状态，否则设为未选中状态*/
+								$checkAll
+										.prop(
+												'checked',
+												$tbr.find('input:checked').length == $tbr.length ? true
+														: false);
+								/*阻止向上冒泡，以防再次触发点击操作*/
+								event.stopPropagation();
+							});
+			/*点击每一行时也触发该行的选中操作*/
+			$tbr.click(function() {
+				$(this).find('input').click();
+			});
+		}
+		initTableCheckbox();
+	});
+</script>

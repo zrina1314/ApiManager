@@ -245,7 +245,6 @@ webModule.controller('frontInterfaceCtrl', function($rootScope,$scope, $http, $s
     $scope.getData();
 });
 
-
 /**
  * 接口详情
  * 不需要打开模态框，所以不能调用$rootScope中的getBaseData()
@@ -306,7 +305,6 @@ webModule.controller('interfaceDetailCtrl', function($rootScope,$scope, $http, $
     $scope.getData();
 });
 
-
 webModule.controller('frontSourceDetailCtrl', function($rootScope,$scope, $http, $state, $stateParams,httpService) {
 	$scope.getData = function(page,setPwd) {
 		//setPwd不为空，表示用户输入了密码，需要记录至cookie中
@@ -366,7 +364,208 @@ webModule.controller('fontInit', function($rootScope,$scope, $http, $state, $sta
     $scope.getData();
 });
 
+/****************************************     以下为扩展功能    **************************************************/
 
+/**
+ * 接口列表
+ */
+webModule.controller('frontInterfaceEgmasCtrl', function($rootScope,$scope, $http, $state, $stateParams,$http ,httpService) {
+	$scope.getData = function(page,setPwd) {
+		//setPwd不为空，表示用户输入了密码，需要记录至cookie中
+		if(setPwd) setPassword();
+		var params = "&interfaceName=" + $stateParams.interfaceName +"&responsiblePerson="+$stateParams.responsiblePerson+ "&requestMethod="+$stateParams.requestMethod+"&url="+ $stateParams.url + "&moduleId="+ $stateParams.moduleId+ "&customModule="+ $stateParams.customModule;
+		
+		params +="&password="+unescapeAndDecode('password');
+		params +="&visitCode="+unescapeAndDecode('visitCode');
+		params = "iUrl=front/interfaceEgmas/list.do|iLoading=FLOAT|iParams="+params;
+		$rootScope.getBaseData($scope,$http,params,page);
+    };
+    $scope.getData();
+});
+
+/**
+ * 接口详情
+ * 不需要打开模态框，所以不能调用$rootScope中的getBaseData()
+ */
+
+webModule.controller('interfaceEgmasDetailCtrl', function($rootScope,$scope, $http, $state, $stateParams,$http ,httpService) {
+	$scope.getData = function(page,setPwd) {
+		//setPwd不为空，表示用户输入了密码，需要记录至cookie中
+		if(setPwd) setPassword();
+		var params = "iUrl=front/interfaceEgmas/detail.do|iLoading=FLOAT|iParams=&id="+$stateParams.id;
+		params +="&password="+unescapeAndDecode('password');
+		params +="&visitCode="+unescapeAndDecode('visitCode');
+		httpService.callHttpMethod($http,params).success(function(result) {
+			var isSuccess = httpSuccess(result,'iLoading=FLOAT');
+			if(!isJson(result)||isSuccess.indexOf('[ERROR]') >= 0){
+				 $rootScope.error = isSuccess.replace('[ERROR]', '');
+				 $rootScope.model = null;
+			 }else{
+				 $rootScope.error = null;
+				 $rootScope.model = result.data;
+				 $rootScope.versions = result.others.versions;
+				 $rootScope.errors = eval("("+result.data.errors+")");
+				 
+				 // 如果param以form=开头，表示为form表单参数
+				 if(result.data.param.length>5 && result.data.param.substring(0,5)=="form="){
+					 $rootScope.formParams = eval("("+result.data.param.substring(5)+")");
+				 }else{
+					 $rootScope.model.customParams = result.data.param;
+				 }
+				 
+				 $rootScope.headers = eval("("+result.data.header+")");
+				 $rootScope.responseParams = eval("("+result.data.responseParam+")");
+				 if(result.data.method=="EGMAS")
+				 {
+					 var headersJsVar = "";
+					 var paramsJsVar = "";
+					 try
+					 { 
+						 headersJsVar = disposeHeaderToJson($rootScope.headers);
+						 //处理头信息 JS
+						 $rootScope.model.headersJS = format(headersJsVar);
+					 } catch (e)
+					 {
+						 $rootScope.model.headersJS = headersJsVar;
+					 }
+					 try
+					 { 
+						 if(result.data.param.length>5 && result.data.param.substring(0,5)=="form="){
+							 paramsJsVar =disposeHeaderToJson($rootScope.formParams);
+						 }else{
+							 paramsJsVar =disposeHeaderToJson($rootScope.responseParams);
+						 }
+						 paramsJsVar = format(paramsJsVar);
+						 $rootScope.model.paramsJS =paramsJsVar;
+					 } catch (e)
+					 {
+						 $rootScope.model.paramsJS =paramsJsVar;
+					 }
+				 }
+				 
+				 $rootScope.others = result.others;
+				 if(result.data.method)// 调试页面默认显示method中第一个
+					 $rootScope.model.debugMethod = result.data.method.split(",")[0];
+			 }
+		});
+    };
+    $scope.getDebugResult= function() {
+    	$rootScope.model.headers = getParamFromTable("debugHeader");
+		$rootScope.model.params =getParamFromTable("debugParams");
+    	if($rootScope.model.debugMethod=="EGMAS"){
+    		$rootScope.model.requestSourceName = $("#egmasSource").val();
+    		$rootScope.model.headers  = $rootScope.model.headersJS;
+    		$rootScope.model.params  =  $rootScope.model.paramsJS;
+    	}
+    	var params = "iUrl=front/interfaceEgmas/debug.do|iLoading=FLOAT|iPost=POST|iParams=&"+$.param($rootScope.model);
+    	httpService.callHttpMethod($http,params).success(function(result) {
+			var isSuccess = httpSuccess(result,'iLoading=FLOAT');
+			if(!isJson(result)||isSuccess.indexOf('[ERROR]') >= 0){
+				 $rootScope.error = isSuccess.replace('[ERROR]', '');
+				 $rootScope.model = null;
+			 }else{
+				 $rootScope.error = null;
+				 try
+				 { 
+					 var debugResultObj=eval("("+result.data.debugResult+")");
+					 if(isJson(debugResultObj))
+						 $rootScope.model.debugResult = format(result.data.debugResult);
+					 else
+						 $rootScope.model.debugResult = result.data.debugResult;
+				 }
+				 catch (e)
+				 {
+					 $rootScope.model.debugResult = result.data.debugResult;
+				 } 
+				 $rootScope.others = result.others;
+				 if(result.data.interval!=null)
+					 $rootScope.model.interval = result.data.interval;
+			 }
+		});
+    };
+    $scope.getData();
+});
+
+/**
+ * 责任田列表
+ */
+webModule.controller('frontAppPageCtrl', function($rootScope,$scope, $http, $state, $stateParams,$http ,httpService) {    
+    $scope.getData = function(page) {
+		var params = "iUrl=front/appPage/list.do|iLoading=FLOAT|iParams=&module="+$stateParams.module+"&person="+$stateParams.person;
+		$rootScope.getBaseData($scope,$http,params,page);
+    };
+    $scope.getData();
+});
+
+/**
+ * EGMAS责任田列表
+ */
+webModule.controller('frontResponsibilityFieldsEgmasCtrl', function($rootScope,$scope, $http, $state, $stateParams,$http ,httpService) {    
+	$scope.getData = function(page,setPwd) {
+		var params = "&responsiblePerson="+$stateParams.responsiblePerson+ "&customModule="+ $stateParams.customModule;
+		params = "iUrl=front/interfaceEgmas/responsibilityList.do|iLoading=FLOAT|iParams="+params;
+		$rootScope.getBaseData($scope,$http,params,page);
+    };
+    $scope.downloadExcel= function() {
+    	alert("待优化……");
+    };
+    $scope.getData();
+});
+
+/**
+ * 验证码查询
+ */
+webModule.controller('frontToolsCtrl', function($rootScope,$scope, $http, $state, $stateParams,$http ,httpService) {
+	$scope.queryCaptch = function() {
+		var queryMobileNo = $stateParams.queryMobileNo;
+		if(queryMobileNo==null || "" == queryMobileNo.trim()){
+			alert("手机号不能为空");
+			return ;
+		}
+		queryMobileNo = parseInt(queryMobileNo);
+		if(!angular.isNumber(queryMobileNo) || queryMobileNo.toString() =="NaN"){
+			alert("手机号格式不正确");
+			return ;
+		}
+		var params = "iLoading=FLOAT|iUrl=front/tools/queryCaptcha.do?mobile="+ $stateParams.queryMobileNo;
+		httpService.callHttpMethod($http,params).success(function(result) {
+			var isSuccess = httpSuccess(result,'iLoading=FLOAT');
+			if(!isJson(result)||isSuccess.indexOf('[ERROR]') >= 0){
+				 $rootScope.error = isSuccess.replace('[ERROR]', '');
+				 $rootScope.userMobiles = null;
+			 }else{
+				 $rootScope.error = null;
+				 $rootScope.userMobiles = result.data.userMobiles;
+			 }
+		});
+    };
+    $scope.getData();
+});
+
+/**
+ * EGMAS 加解密
+ */
+webModule.controller('frontToolsEncryptCtrl', function($rootScope,$scope, $http, $state, $stateParams,$http ,httpService,encryptionService) {
+	$stateParams.encryptText="";
+	$stateParams.decryptText="";
+	$scope.encrypt = function() {
+		$stateParams.decryptText = encryptionService.encrypt($stateParams.encryptText);
+    };
+    
+	$scope.decrypt = function() {
+		$stateParams.decryptText = encryptionService.decrypt($stateParams.encryptText);
+    };
+    
+	$scope.clear = function() {
+		$stateParams.decryptText = "";
+    };
+    
+	$scope.interchange = function() {
+		var tempEncryptText = $stateParams.encryptText;
+		$stateParams.encryptText = $stateParams.decryptText;
+		$stateParams.decryptText = tempEncryptText;
+    };
+});
 
 
 

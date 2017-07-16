@@ -9,12 +9,9 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 @MappedSuperclass
-public abstract class BaseModel implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	protected String id;
+public abstract class BaseModel extends BaseModelBase{
+
+
 	protected String createTime;
 	/**
 	 * -1:删除，0:不可用，1:可用
@@ -22,16 +19,6 @@ public abstract class BaseModel implements Serializable{
 	protected byte status;
 	protected int sequence;// 排序
 	
-	@Id
-	@GeneratedValue(generator="Generator")
-	@Column(name="id")
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	@Column(name="sequence")
 	public int getSequence() {
 		return sequence;

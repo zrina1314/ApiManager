@@ -14,7 +14,7 @@ import cn.crap.utils.Page;
 import cn.crap.utils.Tools;
 import net.sf.json.JSONObject;
 
-public class BaseService<T extends BaseModel> implements IBaseService<T> {
+public class BaseService<T extends BaseModelBase> implements IBaseService<T> {
 	protected IBaseDao<T> dao;
 	@Autowired
 	private ILogDao logDao;
@@ -135,6 +135,11 @@ public class BaseService<T extends BaseModel> implements IBaseService<T> {
 	@Override
 	@Transactional
 	public List<T> queryByHql(String hql, Map<String, Object> map){
+		return  queryByHql(hql, map, null);
+	}
+	
+	@Transactional
+	public List<?> queryByHql2(String hql, Map<String, Object> map){
 		return  queryByHql(hql, map, null);
 	}
 	

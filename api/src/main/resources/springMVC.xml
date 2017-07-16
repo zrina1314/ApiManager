@@ -48,6 +48,29 @@
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
+	<!-- EGMAS 测试数据库 -->
+	<bean id="egmasDataSource" class="org.apache.commons.dbcp2.BasicDataSource"     destroy-method="close">  
+        <property name="driverClassName" value="${oraclejdbc.driverClassName}" />  
+        <property name="url" value="${oraclejdbc.url}" />  
+        <property name="username" value="${oraclejdbc.username}" />  
+        <property name="password" value="${oraclejdbc.password}" />  
+        <!-- 指定连接数据库连接池的最小连接数 
+        <property name="minPoolSize" value="10" />  -->  
+        <!-- 指定连接数据库连接池的最大连接数
+        <property name="maxPoolSize" value="30" />   -->  
+        <!-- 指定连接数据库连接池的连接的最大空闲时间
+        <property name="maxIdleTime" value="1800" />  
+        <property name="acquireIncrement" value="2" />  
+        <property name="maxStatements" value="0" />   -->  
+        <!-- 指定连接数据库连接池的初始化连接数 
+        <property name="initialPoolSize" value="2" />  
+        <property name="idleConnectionTestPeriod" value="1800" />  -->  
+        <!-- 当连接失败时，尝试重新连接的次数 
+        <property name="acquireRetryAttempts" value="1" />  
+        <property name="breakAfterAcquireFailure" value="true" />  
+        <property name="testConnectionOnCheckout" value="false" />  -->  
+	</bean>
+	
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -74,12 +97,41 @@
 			</props>
 		</property>
 	</bean>
+	<!-- EGMAS 测试环境的SessionFactory -->
+	<bean id="egmasSessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="egmasDataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>cn.crap</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			<!-- 	配置数据源 -->
+				<prop key="hibernate.c3p0.max_size">50</prop>
+				<prop key="hibernate.c3p0.min_size">5</prop>
+				<prop key="hibernate.c3p0.acquire_increment">5</prop>
+				<prop key="hibernate.c3p0.max_statements">200</prop>
+				<prop key="hibernate.c3p0.idle_test_period">3000</prop>
+				<prop key="hibernate.c3p0.validate">false</prop>
+				<prop key="hibernate.c3p0.timeout">5000</prop>
+				<prop key="current_session_context_class">thread</prop>
+			</props>
+		</property>
+	</bean>
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	
+	<bean id="egmasHibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+		<property name="sessionFactory">
+			<ref bean="egmasSessionFactory" />
+		</property>
+	</bean>
 	<mvc:interceptors>
 		<!-- 国际化操作拦截器 如果采用基于（请求/Session/Cookie）则必需配置 -->
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />

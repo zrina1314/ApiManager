@@ -64,6 +64,32 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				}
 			}
 		}
+	}).state('frontInterfaceEgmasCtrl', {
+		url : '/:projectId/interfaceEgmas/list/:moduleId',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/frontHtml/interfaceEgmasList.tpl.html'
+			},
+			'page@frontInterfaceEgmasCtrl' : {
+				templateUrl : 'resources/html/frontHtml/page.tpl.html'
+			}
+		}
+	}).state('frontInterfaceEgmasDetailCtrl', {
+		url : '/:projectId/front/interfaceEgmasDetail/:id',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/frontHtml/interfaceEgmasDetail.tpl.html'
+			}
+		}
+	}).state('frontInterfaceEgmasDebugCtrl', {
+		url : '/:projectId/front/interfaceEgmas/debug/:id',
+		views : {
+			'main' :{
+				templateUrl : function($stateParems){
+					return 'resources/html/frontHtml/interfaceEgmasDebug.tpl.html';
+				}
+			}
+		}
 	}).state('frontSourceList', {
 		url : '/:projectId/source/list/:moduleId',
 		views : {
@@ -82,6 +108,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			},
 			'page@frontProjectList' : {
 				templateUrl : 'resources/html/frontHtml/page.tpl.html'
+			}
+		}
+	}).state('frontToolsCtrl', {
+		url : '/tools/captcha',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/frontHtml/captcha.tpl.html'
+			}
+		}
+	}).state('frontToolsEncryptCtrl', {
+		url : '/tools/encrypt',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/frontHtml/encrypt.tpl.html'
 			}
 		}
 	})

@@ -1,0 +1,29 @@
+<div class="col-xs-12 r0 p20 pt0" ng-controller="frontToolsEncryptCtrl">
+	<div class="col-xs-12 f16 fb pl0 mb10 pb5 mt20" >EGMAS 加密 / 解密</div>
+	
+	<div class=" col-xs-12 dashed-t pt15 p0 form-group">
+	    <label for="name">原文本框</label>
+	    <textarea class="form-control" rows="7" ng-model="$stateParams.encryptText"></textarea>
+	 </div>
+	
+	<div class="col-xs-12 p0 pb10">
+		<button type="button" class="ml5 mt1 btn btn-success btn-sm fr no-radius" ng-click="clear();" >
+			清空
+		</button>
+		<button type="button" class="ml5 mt1 btn btn-success btn-sm fr no-radius" ng-click="interchange();" >
+			互换
+		</button>
+		<button type="button" class="ml5 mt1 btn btn-success btn-sm fr no-radius" ng-click="decrypt();" >
+			解密
+		</button>
+		<button type="button" class="ml5 mt1 btn btn-success btn-sm fr no-radius" ng-click="encrypt();">
+			加密
+		</button>
+	</div>
+		
+	<div class=" col-xs-12  pt15 p0 form-group">
+		<textarea class="form-control" rows="7" ng-model="$stateParams.decryptText"></textarea>
+	</div>
+</div>
+
+

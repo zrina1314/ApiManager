@@ -6,7 +6,7 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 
 import cn.crap.utils.Page;
 
-public interface IBaseDao<T extends BaseModel> {
+public interface IBaseDao<T extends BaseModelBase> {
 	public abstract T save(T t);
 	public abstract void delete(T t);
 	public abstract T get(String id);

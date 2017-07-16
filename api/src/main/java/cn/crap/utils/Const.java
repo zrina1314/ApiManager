@@ -91,4 +91,18 @@ public class Const {
 	public static final String SOLR_QUEUESIZE  = "SOLR_QUEUESIZE";
 	public static final String SOLR_THREADCOUNT = "SOLR_THREADCOUNT";
 	public static final String SEARCH_TYPE = "SEARCH_TYPE";
+	
+	// EGMAS常量
+	public static final String METHOD = "method";
+	public static final String REQUESTPARAMS = "requstParams";
+	
+	// 邮件模块
+	public static final String EMAIL_SERVER_HOST = "hqmail.sf.com";
+	public static final String EMAIL_SERVER_PORT = "25";
+	public static final String EMAIL_SEND_ADDRESS = "80000807@sf-express.com";
+	public static final String EMAIL_SEND_USER_NAME = "80000807";
+	public static final String EMAIL_SEND_USER_ADDRESS = "EMAIL_SEND_USER_NAME"; // 系统配置中的KEY
+	public static final String baishidada = "baishidada"; // 系统配置中的KEY
+	public static final String EMAIL_SEND_PERSONAL_NAME = "花心大萝卜";
+	public static final String EMAIL_RECEIVE_ALL = ""; // 所有的接收者
 }

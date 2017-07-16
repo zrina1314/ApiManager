@@ -5,7 +5,7 @@ import java.util.Map;
 
 import cn.crap.utils.Page;
 
-public interface IBaseService<T extends BaseModel> {
+public interface IBaseService<T extends BaseModelBase> {
 
 	/**
 	 * 保存对象

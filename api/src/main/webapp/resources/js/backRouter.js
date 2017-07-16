@@ -279,6 +279,56 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				}
 			}
 		}
+	}).state('egmasSourceList', {
+		url : '/egmasSource/list/:directoryId/:directoryName',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/backHtml/egmasSourceList.tpl.html'
+			},
+			'page@egmasSourceList' : {
+				templateUrl : 'resources/html/backHtml/page.tpl.html'
+			},
+			'detail' : {
+				templateUrl : function($stateParems){
+					return 'resources/html/backHtml/egmasSourceDetail.tpl.html';
+				}
+			}
+		}
+	}).state('appPageList', {
+		url : '/appPage/list/:directoryId/:directoryName',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/backHtml/appPageList.tpl.html'
+			},
+			'page@appPageList' : {
+				templateUrl : 'resources/html/backHtml/page.tpl.html'
+			},
+			'detail' : {
+				templateUrl : function($stateParems){
+					return 'resources/html/backHtml/appPageDetail.tpl.html';
+				}
+			},
+			'appPageInterface' : {
+				templateUrl : function($stateParems){
+					return 'resources/html/backHtml/appPageInterface.tpl.html';
+				}
+			}
+		}
+	}).state('InterfaceEgmasList', {
+		url : '/interfaceEgmas/list/:moduleId/:moduleName',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/backHtml/interfaceEgmasList.tpl.html'
+			},
+			'page@backInterfaceList' : {
+				templateUrl : 'resources/html/backHtml/page.tpl.html'
+			},
+			'detail' : {
+				templateUrl : function($stateParems){
+					return 'resources/html/backHtml/interfaceEgmasDetail.tpl.html';
+				}
+			}
+		}
 	})
 	
 });
