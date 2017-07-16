@@ -4,9 +4,9 @@ import org.springframework.stereotype.Repository;
 
 import cn.crap.framework.base.BaseDao;
 import cn.crap.inter.dao.IAppPageInterfaceDao;
-import cn.crap.model.AppPage_Interface;
+import cn.crap.model.AppPageInterface;
 
 @Repository("appPageInterfaceDao")
-public class AppPageInterfaceDao extends BaseDao<AppPage_Interface> implements IAppPageInterfaceDao {
+public class AppPageInterfaceDao extends BaseDao<AppPageInterface> implements IAppPageInterfaceDao {
 
 }

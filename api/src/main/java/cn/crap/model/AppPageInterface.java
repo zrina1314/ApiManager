@@ -18,7 +18,7 @@ import cn.crap.framework.base.BaseModel;
 @Entity
 @Table(name = "apppage_interface")
 @GenericGenerator(name = "Generator", strategy = "cn.crap.framework.IdGenerator")
-public class AppPage_Interface extends BaseModel implements Serializable {
+public class AppPageInterface extends BaseModel implements Serializable {
 	/**
 	 * 
 	 */
@@ -27,7 +27,7 @@ public class AppPage_Interface extends BaseModel implements Serializable {
 	private String appPage_id; // 页面ID
 	private String interface_id; // 接口ID
 	
-	public AppPage_Interface() {
+	public AppPageInterface() {
 	};
 
 	/**
@@ -38,7 +38,7 @@ public class AppPage_Interface extends BaseModel implements Serializable {
 	 * @param interface_id
 	 *            接口ID
 	 */
-	public AppPage_Interface(String appPage_id, String interface_id) {
+	public AppPageInterface(String appPage_id, String interface_id) {
 		this.appPage_id = appPage_id;
 		this.interface_id = interface_id;
 	}

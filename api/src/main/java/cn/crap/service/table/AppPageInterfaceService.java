@@ -9,32 +9,32 @@ import org.springframework.stereotype.Service;
 import cn.crap.framework.base.BaseService;
 import cn.crap.framework.base.IBaseDao;
 import cn.crap.inter.service.table.IAppPageInterfaceService;
-import cn.crap.model.AppPage_Interface;
+import cn.crap.model.AppPageInterface;
 import cn.crap.utils.StringUtils;
 
 
 @Service
-public class AppPageInterfaceService extends BaseService<AppPage_Interface>
+public class AppPageInterfaceService extends BaseService<AppPageInterface>
 		implements IAppPageInterfaceService {
 
 	@Resource(name="appPageInterfaceDao")
-	public void setDao(IBaseDao<AppPage_Interface> dao ) {
+	public void setDao(IBaseDao<AppPageInterface> dao ) {
 		super.setDao(dao);
 	}
 
 	@Override
-	public List<AppPage_Interface> getListByAppPageID(String appPageId) {
+	public List<AppPageInterface> getListByAppPageID(String appPageId) {
 		return null;
 	}
 
 	@Override
-	public List<AppPage_Interface> getListByInterfaceID(String interfaceId) {
+	public List<AppPageInterface> getListByInterfaceID(String interfaceId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<AppPage_Interface> getList(String appPageId, String interfaceId) {
+	public List<AppPageInterface> getList(String appPageId, String interfaceId) {
 		Map<String, Object> params = new HashMap<>();
 		
 		if (StringUtils.isNotEmpty(appPageId)) {

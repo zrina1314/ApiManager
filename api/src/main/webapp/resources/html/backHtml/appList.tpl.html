@@ -1,0 +1,93 @@
+<div class="r0 p20 pt10 col-xs-12" ng-controller="appPageCtrl">
+	<div class="col-xs-6 f16 fb p0 mb5">责任田管理</div>
+	<div class="col-xs-6 f14 p0 mb5 tr">
+		<a type="button" class="btn btn-primary btn-sm" id="refresh" ng-click="getData(list.page.currentPage)">
+			<i class="iconfont fb">&#xe611;&nbsp;</i>刷新
+		</a>
+		<a type="button" class="btn btn-purple btn-sm" onclick="history.back(-1);">
+			<i class="iconfont fb">&#xe605;&nbsp;</i>后退
+		</a>
+	</div>
+	<div class="col-xs-12 bb1 bt1 pt15 p0 pb10">
+		<a type="button" class="ml5 mt1 btn btn-success btn-sm fr" ng-if="showOperation('EGMAS_SOURCE')" ng-click="detail('新增责任田',800,'back/appPage/detail.do?id=NULL')">
+			<i class="iconfont fb">&#xe604;</i>&nbsp;新增责任田
+		</a>
+		<button type="button" class="ml5 mt1 btn btn-success btn-sm fr" ng-click="getData(1);">
+			<i class="iconfont">&#xe60d;</i>&nbsp;查询
+		</button>
+		<div class="form-group w250 fr ">
+			<label class="sr-only" for="">责任人</label>
+			<div class="input-group">
+				<div class="input-group-addon no-radius">责任人</div>
+				<input class="form-control input-xs dis-in-blo w120 no-radius no-b-s" id="search_person" type="text" ng-model="$stateParams.search_person" required placeholder="点击输入框选择责任人" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=search_person|tag=search_person|code=RESPONSIBILITY_PERSON|def='+$stateParams.search_person,$event)">
+			</div>
+		</div>
+		<div class="form-group w250 fr mr10">
+			<label class="sr-only" for="">模块名称</label>
+			<div class="input-group">
+				<div class="input-group-addon">模块名称</div>
+				<input class="form-control input-xs dis-in-blo w120 no-radius no-b-s" id="search_module" type="text" ng-model="$stateParams.search_module" required placeholder="点击输入框选择模块"
+					ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=search_module|tag=search_module|code=RESPONSIBILITY_MODULE|def='+$stateParams.search_module,$event)">
+			</div>
+		</div>
+		<div class="cb"></div>
+	</div>
+	<!-- appPageDesc -->
+	<div ng-include="'resources/html/subTpl/appPageDesc.tpl.html'"></div>
+	<!-- appPageDesc End -->
+	<div class="col-xs-3 f16 fb pl0 mb10 pb5 mt20" ng-if="list.sources.length>0">页面列表</div>
+	<div class="col-xs-12 p0" ng-if="list.sources.length>0">
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr class="BGEEE">
+					<th class="tc w100" ng-click="col='module';desc=!desc">模块名称</th>
+					<th class="tc" ng-click="col='function';desc=!desc">具体功能</th>
+					<th class="tc" ng-click="col='function';desc=!desc">备注/描述</th>
+					<th class="tc" ng-click="col='android';desc=!desc">Android负责人</th>
+					<th class="tc" ng-click="col='ios';desc=!desc">IOS负责人</th>
+					<th class="tc" ng-click="col='test';desc=!desc">测试负责人</th>
+					<th class="tc" ng-click="col='updateTime';desc=!desc">最后修改时间</th>
+					<!-- 		<th class="tc">排序</th> -->
+					<th class="tc w300">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in list.sources">
+					<td class="tc">{{item.module}}</td>
+					<td class="tc">{{item.function}}</td>
+					<td class="tc">{{item.remark}}</td>
+					<td class="tc">{{item.android}}</td>
+					<td class="tc">{{item.ios}}</td>
+					<td class="tc">{{item.test}}</td>
+					<td class="tc">{{getDate(item.updateTime)|date:'yyyy-MM-dd HH:mm'}}</td>
+					<!-- 	<td class="tc">{{item.sequence}}</td> -->
+					<td class="tc">
+						<a class="f12 text-primary mr10 cursor" ng-click="detail('编辑【'+item.module+'  - '+ item.function+' 的下一级页面】',900,'back/appPage/detail.do?id='+item.id,'&directoryId='+$stateParams.directoryId)">
+							<i class="iconfont f12">&#xe618;关联页面</i>
+						</a>
+						<a class="f12 text-primary mr10 cursor" ng-click="appPageInterface('编辑【'+item.module+'  - '+ item.function+' 关联的接口】',900,'back/appPage/appPageInterface.do?id='+item.id,'&directoryId='+$stateParams.directoryId)">
+							<i class="iconfont f12">&#xe618;关联接口</i>
+						</a>
+						<a class="f12 text-primary mr10 cursor" ng-click="detail('编辑【'+item.module+'  - '+ item.function+'】',800,'back/appPage/detail.do?id='+item.id,'&directoryId='+$stateParams.directoryId)">
+							<i class="iconfont f12">&#xe618;修改</i>
+						</a>
+						<a class="f12 text-danger mr10 cursor" title="删除" ng-click="del('back/appPage/delete.do?id='+item.id,item.module)">
+							<i class="iconfont f12">&#xe60e;删除</i>
+						</a>
+					<!-- 	<div class="w50 fr tl">
+							<a class="f12 text-danger mr10 cursor" title="向上移" ng-click="changeSequence1('appPage',item.id,list.sources[$index-1].id,'up')" ng-if="$index>0">
+								<i class="iconfont f12">&#xe623;</i>
+							</a>
+							<a class="f12 text-danger mr10 cursor" title="向下移" ng-click="changeSequence1('appPage',item.id,list.sources[$index+1].id,'down')" ng-if="$index<list.sources.length-1">
+								<i class="iconfont f12">&#xe624;</i>
+							</a>
+						</div> -->
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div ui-view="page"></div>
+	</div>
+</div>
+<div class="cb"></div>
+
