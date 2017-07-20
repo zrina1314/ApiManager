@@ -33,11 +33,11 @@
 		} */
 		
 	</script>
-<div class="form-group">
+<!-- <div class="form-group">
 	<blockquote>
 		<p class="f12 fb pl10 tl C999">选择后回车即可快速确认，键盘输入可快速定位，退格可删除输入</p>
 	</blockquote>
-</div>
+</div> -->
 <div id="pickContent">
 	${pickContent}
 </div>

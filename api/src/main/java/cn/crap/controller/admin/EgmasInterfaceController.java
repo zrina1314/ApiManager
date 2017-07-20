@@ -120,9 +120,10 @@ public class EgmasInterfaceController extends BaseController<Interface>{
 //		}else{
 //			interFace.setErrors("[]");
 //		}
-		
-		String token = MyCookie.getCookie(Const.COOKIE_TOKEN, false, request);
-		LoginInfoDto user = (LoginInfoDto) cacheService.getObj(Const.CACHE_USER + token);
+		/**
+		 * 刷新用户权限
+		 */
+		LoginInfoDto user = Tools.getUser();
 		if (user!=null) {
 			//interFace.setUpdateBy("userName："+user.getUserName()+" | trueName："+ user.getTrueName());
 			interFace.setUpdateBy(user.getTrueName());

@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import cn.crap.framework.auth.AuthPassport;
 import cn.crap.framework.base.BaseController;
+import cn.crap.model.Setting;
 import cn.crap.model.User;
 import cn.crap.springbeans.Config;
 import cn.crap.utils.Const;
@@ -30,7 +31,10 @@ public class FileController extends BaseController <User>{
 			String property) {
 		String result = "";
 	    String realFileName = file.getOriginalFilename();    
-	    String destDir = Tools.getServicePath(request);
+	    String destDir = config.getDestDir();
+		if (null == destDir || "".equals(destDir)) {
+			destDir = Tools.getServicePath(request);
+		}
 	    String saveUrl ="";
 	    String suffix = realFileName.substring(realFileName.lastIndexOf(".") + 1).toLowerCase();
 	    JSONObject obj = new JSONObject();
@@ -92,6 +96,5 @@ public class FileController extends BaseController <User>{
     	   obj.put("message", result);
            printMsg(obj.toString());
        }
-	}
-	
+	}	
 }

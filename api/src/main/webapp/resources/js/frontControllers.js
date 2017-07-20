@@ -373,8 +373,16 @@ webModule.controller('frontInterfaceEgmasCtrl', function($rootScope,$scope, $htt
 	$scope.getData = function(page,setPwd) {
 		//setPwd不为空，表示用户输入了密码，需要记录至cookie中
 		if(setPwd) setPassword();
-		var params = "&interfaceName=" + $stateParams.interfaceName +"&responsiblePerson="+$stateParams.responsiblePerson+ "&requestMethod="+$stateParams.requestMethod+"&url="+ $stateParams.url + "&moduleId="+ $stateParams.moduleId+ "&customModule="+ $stateParams.customModule;
 		
+		
+		var params = "&interfaceName=" + $stateParams.interfaceName + "&requestMethod="+$stateParams.requestMethod+"&url="+ $stateParams.url + "&moduleId="+ $stateParams.moduleId;
+		
+		if($("#customModule").val()!=null&&$("#customModule").val()!=''){
+			params += "&customModule=" + $("#customModule").val();
+		}
+		if($("#responsiblePerson").val()!=null&&$("#responsiblePerson").val()!=''){
+			params += "&responsiblePerson=" + $("#responsiblePerson").val();
+		}
 		params +="&password="+unescapeAndDecode('password');
 		params +="&visitCode="+unescapeAndDecode('visitCode');
 		params = "iUrl=front/interfaceEgmas/list.do|iLoading=FLOAT|iParams="+params;

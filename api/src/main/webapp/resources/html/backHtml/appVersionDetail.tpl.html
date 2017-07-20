@@ -1,50 +1,62 @@
 <div class="r0 p10 pt0 col-xs-12" ng-controller="detailCtrl">
-	<form ng-submit="submitForm('back/appPage/addOrUpdate.do')">
+	<form ng-submit="submitForm('appVersion/addOrUpdate.do')">
 		<table class="table table-bordered">
 			<tr>
-				<td class="tc w200">模块名称</td>
+				<td class="tc w100">版本名称</td>
 				<td class="tc">
-					<input class="form-control" id="module" type="text" ng-model="model.module" required placeholder="点击输入框选择模块" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=module|tag=module|code=RESPONSIBILITY_MODULE|def='+model.module,$event)">
+					<input class="form-control" type="text" placeholder="如：V8.9.0" required ng-model="model.name">
 				</td>
 			</tr>
 			<tr>
-				<td class="tc w200">具体功能</td>
+				<td class="tc w100">版本Code</td>
 				<td class="tc">
-					<input class="form-control" type="text" placeholder="如：在线下单/服务点下单/模板下单" required ng-model="model.function">
+					<input class="form-control" type="text" required ng-model="model.code">
 				</td>
 			</tr>
 			<tr>
-				<td class="tc">Android责任人</td>
+				<td class="tc w100">版本描述</td>
 				<td class="tc">
-					<input class="form-control" id="android" type="text" ng-model="model.android"  placeholder="多个责任人用 ， 分隔" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=android|tag=model.android|code=ANDROID_RESPONSIBILITY_PERSON|def='+model.android,$event)">
-				</td>
-			</tr>
-			<tr>
-				<td class="tc">IOS责任人</td>
-				<td class="tc">
-					<input class="form-control" id="ios" type="text" ng-model="model.ios"  placeholder="多个责任人用 ， 分隔" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=ios|tag=model.ios|code=IOS_RESPONSIBILITY_PERSON|def='+model.ios,$event)">
-				</td>
-			</tr>
-			<tr>
-				<td class="tc">测试责任人</td>
-				<td class="tc">
-					<input class="form-control" id="test" type="text" ng-model="model.test"  placeholder="多个责任人用 ， 分隔" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=test|tag=model.test|code=TEST_RESPONSIBILITY_PERSON|def='+model.test,$event)">
-				</td>
-			</tr>
-			<tr>
-				<td class="tc w200">备注</td>
-				<td class="tc">
-					<textarea rows="6" class="form-control" ng-model="model.remark"></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td class="tc">排序</td>
-				<td class="tc">
-					<input class="form-control" min="0" max="10000" required type="number" ng-model="model.sequence">
+					<textarea rows="3" class="form-control no-resize" ng-model="model.desc"></textarea>
 				</td>
 			</tr>
 		</table>
 		<button class="ndis" id="sourceForm" type="submit">提交</button>
+	</form>
+	<form enctype="multipart/form-data" name="apkFileUatForm"  style="margin-top: -21px" target="hiddenFrame" action="file/upload.do?callBack=uploadFileUatCallBack" method="post">
+		<table class="table table-bordered">
+			<tr>
+				<td class="tc w100">测试包APK文件</td>
+				<td class="tc">
+					<div class="input-group w">
+						<input class="form-control no-resize" ng-model="model.filePathUat" placeholder="请点击“上传”按钮选择文件或输入文件路径">
+						<div class="input-group-addon cursor btn-purple C999" title="点击选择文件" onclick="$('#apkFileUatPath').click();">
+							<i class="iconfont main-color">&#xe619;</i>
+							选择文件
+						</div>
+					</div>
+					<span class="ndis"> <input type="file" name="img" accept="apk/apk"  onchange="uploadApk('apkFileUatPath',1024*30,apkFileUatForm)" id="apkFileUatPath" />
+					</span>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<form enctype="multipart/form-data" name="apkFileProductForm" style="margin-top: -21px" target="hiddenFrame" action="file/upload.do?callBack=uploadFileProductCallBack" method="post">
+		<table class="table table-bordered">
+			<tr>
+				<td class="tc w100">生产包APK文件</td>
+				<td class="tc">
+					<div class="input-group w">
+						<input class="form-control no-resize" ng-model="model.filePathProduct"   placeholder="请点击“上传”按钮选择文件或输入文件路径">
+						<div class="input-group-addon cursor btn-purple C999" title="点击选择文件" onclick="$('#apkFileProductPath').click();">
+							<i class="iconfont main-color">&#xe619;</i>
+							选择文件
+						</div>
+					</div>
+					<span class="ndis"> <input type="file" name="img" accept="apk/apk"  onchange="uploadApk('apkFileProductPath',1024*30,apkFileProductForm)" id="apkFileProductPath" />
+					</span>
+				</td>
+			</tr>
+		</table>
 	</form>
 </div>
 <button class="btn btn-success fr" onclick="$('#sourceForm').click();">提交</button>

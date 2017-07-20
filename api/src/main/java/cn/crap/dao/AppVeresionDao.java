@@ -8,7 +8,7 @@ import cn.crap.inter.dao.IAppVersionDao;
 import cn.crap.model.App;
 import cn.crap.model.AppVersion;
 
-@Repository("appDao")
+@Repository("appVersionDao")
 public class AppVeresionDao extends BaseDao<AppVersion> implements IAppVersionDao {
 
 }

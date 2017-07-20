@@ -294,6 +294,36 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				}
 			}
 		}
+	}).state('appList', {
+		url : '/app/list/',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/backHtml/appList.tpl.html'
+			},
+			'page@appPageList' : {
+				templateUrl : 'resources/html/backHtml/page.tpl.html'
+			},
+			'detail' : {
+				templateUrl : function($stateParems){
+					return 'resources/html/backHtml/appDetail.tpl.html';
+				}
+			},
+		}
+	}).state('appVersionList', {
+		url : '/appVersion/list/:appID',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/backHtml/appVersionList.tpl.html'
+			},
+			'page@appPageList' : {
+				templateUrl : 'resources/html/backHtml/page.tpl.html'
+			},
+			'detail' : {
+				templateUrl : function($stateParems){
+					return 'resources/html/backHtml/appVersionDetail.tpl.html';
+				}
+			},
+		}
 	}).state('appPageList', {
 		url : '/appPage/list/:directoryId/:directoryName',
 		views : {

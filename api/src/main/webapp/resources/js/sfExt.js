@@ -203,3 +203,74 @@ function Map() {
         return arr;     
     }     
 }     
+
+/**
+ * size 单位为kb
+ * @param event
+ * @param id
+ * @param size
+ * @returns {Boolean}
+ */
+function uploadApk(id,size,form){
+	 if(!iLength(id,1,-1,"未选着图片，上传失败")){
+		return false;
+	 }
+	 var file = document.getElementById(id).files[0];
+     var fileSize =file.size;
+     if(size > 0 && fileSize>size*1024){       
+          alert("图片不能大于"+size+"kb,约"+(Math.round(size*1000/1024)/1000)+"M"); 
+          return false; 
+     } 
+     var fileName = file.name;
+     if(!fileName.endsWith(".apk")){
+    	 alert("只能上传Apk文件"); 
+         return false; 
+     }
+     
+	lookUp('lookUp','',100,350,0); 
+	$("#lookUpContent").html("上传中，请稍后...");
+	showMessage('lookUp', 'false', false, -1);
+	form.submit();
+}
+
+//文档管理上传文件回调方法
+function uploadFileUatCallBack(msg, url) {
+	if (msg.indexOf("[OK]") >= 0) {
+		showMessage('lookUp', 'false', false, 0);
+		if (url!= undefined) {
+			//修改source中的filePath
+			var rootScope = getRootScope();
+			rootScope.$apply(function () {          
+			    rootScope.model.filePathUat = url;
+			    // 获取文件原名
+			    if(!rootScope.model.name){
+			    	rootScope.model.name = $("#filePath").val().substring($("#filePath").val().lastIndexOf("\\")+1);
+			    }
+			});
+		}
+	}else {
+		$("#lookUpContent").html(err1 + "&nbsp; " + url + "" + err2);
+		showMessage('lookUp', 'false', false, 3);
+	}
+}
+
+//文档管理上传文件回调方法
+function uploadFileProductCallBack(msg, url) {
+	if (msg.indexOf("[OK]") >= 0) {
+		showMessage('lookUp', 'false', false, 0);
+		if (url!= undefined) {
+			//修改source中的filePath
+			var rootScope = getRootScope();
+			rootScope.$apply(function () {          
+			    rootScope.model.filePathProduct = url;
+			    // 获取文件原名
+			    if(!rootScope.model.name){
+			    	rootScope.model.name = $("#filePath").val().substring($("#filePath").val().lastIndexOf("\\")+1);
+			    }
+			});
+		}
+	}else {
+		$("#lookUpContent").html(err1 + "&nbsp; " + url + "" + err2);
+		showMessage('lookUp', 'false', false, 3);
+	}
+}

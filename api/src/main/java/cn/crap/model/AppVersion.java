@@ -10,40 +10,27 @@ import org.hibernate.annotations.GenericGenerator;
 
 import cn.crap.framework.base.BaseModel;
 
-
 @Entity
-@Table(name="app_version")
-@GenericGenerator(name="Generator", strategy="cn.crap.framework.IdGenerator")
-public class AppVersion extends BaseModel implements Serializable{
-	 /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		
-	private String name;
-	private String desc;
-	private String code;
-	private String force;
-	private String appID;
-	private String updateTime;
-	private String updateUserID;
-	private String apkUrl;
+@Table(name = "app_version")
+@GenericGenerator(name = "Generator", strategy = "cn.crap.framework.IdGenerator")
+public class AppVersion extends BaseModel implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	
-	
-	public AppVersion(){};
-	
-	public AppVersion(String id, String name, String desc, String code, String force, String appID, String updateTime, String updateUserID,String apkUrl) {
-		this.id = id;
-		this.name = name;
-		this.desc = desc;
-		this.code = code;
-		this.force = force;
-		this.appID = appID;
-		this.updateTime = updateTime;
-		this.updateUserID = updateUserID;
-		this.apkUrl = apkUrl;
-	}
+	private String name;
+	private String versionDesc;
+	private String code;
+	private String versionForce;	//是否强制更新
+	private String appID;
+	private String createUserID;
+	private String createUserName;
+	private String filePathUat;
+	private String filePathProduct;
+	public AppVersion() {
+	};
+
 	@Column(name = "name")
 	public String getName() {
 		return name;
@@ -52,14 +39,16 @@ public class AppVersion extends BaseModel implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	@Column(name = "desc")
-	public String getDesc() {
-		return desc;
+
+	@Column(name = "versionDesc")
+	public String getVersionDesc() {
+		return versionDesc;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setVersionDesc(String versionDesc) {
+		this.versionDesc = versionDesc;
 	}
+
 	@Column(name = "code")
 	public String getCode() {
 		return code;
@@ -68,15 +57,17 @@ public class AppVersion extends BaseModel implements Serializable{
 	public void setCode(String code) {
 		this.code = code;
 	}
-	@Column(name = "force")
-	public String getForce() {
-		return force;
+
+	@Column(name = "versionForce")
+	public String getVersionForce() {
+		return versionForce;
 	}
 
-	public void setForce(String force) {
-		this.force = force;
+	public void setVersionForce(String versionForce) {
+		this.versionForce = versionForce;
 	}
-	@Column(name = "app_id")
+
+	@Column(name = "appID")
 	public String getAppID() {
 		return appID;
 	}
@@ -84,29 +75,42 @@ public class AppVersion extends BaseModel implements Serializable{
 	public void setAppID(String appID) {
 		this.appID = appID;
 	}
-	@Column(name = "update_time")
-	public String getUpdateTime() {
-		return updateTime;
+	
+	@Column(name = "createUserID")
+	public String getCreateUserID() {
+		return createUserID;
 	}
 
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
+	public void setCreateUserID(String createUserID) {
+		this.createUserID = createUserID;
 	}
-	@Column(name = "update_user_id")
-	public String getUpdateUserID() {
-		return updateUserID;
-	}
-
-	public void setUpdateUserID(String updateUserID) {
-		this.updateUserID = updateUserID;
+	
+	@Column(name = "createUserName")
+	public String getCreateUserName() {
+		return createUserName;
 	}
 
-	@Column(name = "api_url")
-	public String getApkUrl() {
-		return apkUrl;
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
 	}
 
-	public void setApkUrl(String apkUrl) {
-		this.apkUrl = apkUrl;
-	}	
+	@Column(name = "filePathUat")
+	public String getFilePathUat() {
+		return filePathUat;
+	}
+
+	public void setFilePathUat(String filePathUat) {
+		this.filePathUat = filePathUat;
+	}
+
+	@Column(name = "filePathProduct")
+	public String getFilePathProduct() {
+		return filePathProduct;
+	}
+
+	public void setFilePathProduct(String filePathProduct) {
+		this.filePathProduct = filePathProduct;
+	}
+	
+	
 }

@@ -1,40 +1,28 @@
-<div class="r0 p10 pt0 col-xs-12" ng-controller="detailCtrl">
-	<form ng-submit="submitForm('back/appPage/addOrUpdate.do')">
+<div class="r0 p10 pt0 col-xs-12 BGFFF" ng-controller="detailCtrl">
+	<form ng-submit="submitForm('app/addOrUpdate.do')">
 		<table class="table table-bordered">
 			<tr>
-				<td class="tc w200">模块名称</td>
+				<td class="tc w200">App名称</td>
 				<td class="tc">
-					<input class="form-control" id="module" type="text" ng-model="model.module" required placeholder="点击输入框选择模块" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=module|tag=module|code=RESPONSIBILITY_MODULE|def='+model.module,$event)">
+					<input class="form-control" type="text" required ng-model="model.name">
 				</td>
 			</tr>
 			<tr>
-				<td class="tc w200">具体功能</td>
+				<td class="tc w200">描述</td>
 				<td class="tc">
-					<input class="form-control" type="text" placeholder="如：在线下单/服务点下单/模板下单" required ng-model="model.function">
+					<input class="form-control" type="text" required ng-model="model.appDesc">
 				</td>
 			</tr>
 			<tr>
-				<td class="tc">Android责任人</td>
+				<td class="tc">包名</td>
 				<td class="tc">
-					<input class="form-control" id="android" type="text" ng-model="model.android"  placeholder="多个责任人用 ， 分隔" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=android|tag=model.android|code=ANDROID_RESPONSIBILITY_PERSON|def='+model.android,$event)">
+					<input class="form-control" type="text" required ng-model="model.packageName">
 				</td>
 			</tr>
 			<tr>
-				<td class="tc">IOS责任人</td>
+				<td class="tc">标记</td>
 				<td class="tc">
-					<input class="form-control" id="ios" type="text" ng-model="model.ios"  placeholder="多个责任人用 ， 分隔" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=ios|tag=model.ios|code=IOS_RESPONSIBILITY_PERSON|def='+model.ios,$event)">
-				</td>
-			</tr>
-			<tr>
-				<td class="tc">测试责任人</td>
-				<td class="tc">
-					<input class="form-control" id="test" type="text" ng-model="model.test"  placeholder="多个责任人用 ， 分隔" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=test|tag=model.test|code=TEST_RESPONSIBILITY_PERSON|def='+model.test,$event)">
-				</td>
-			</tr>
-			<tr>
-				<td class="tc w200">备注</td>
-				<td class="tc">
-					<textarea rows="6" class="form-control" ng-model="model.remark"></textarea>
+					<input class="form-control" type="text" required ng-model="model.tag">
 				</td>
 			</tr>
 			<tr>

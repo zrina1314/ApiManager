@@ -467,7 +467,7 @@ mainModule.controller('backInterfaceDetailCtrl', function($rootScope,$scope, $ht
     /****************End:返回参数***************/
 });
 
-mainModule.controller('backInterfaceEgmasDetailCtrl', function($rootScope,$scope, $http, $state, $stateParams ,httpService) {
+mainModule.controller('interfaceEgmasDetailCtrl', function($rootScope,$scope, $http, $state, $stateParams ,httpService) {
     $scope.getRequestExam = function(editerId,targetId,item,tableId) {
     	var params = "iUrl=user/interfaceEgmas/getRequestExam.do|iLoading=FLOAT|iPost=true|iParams=&"+$.param($rootScope.model);
 		httpService.callHttpMethod($http,params).success(function(result) {
@@ -828,3 +828,22 @@ mainModule.controller('appPageCtrl', function($rootScope,$scope, $http, $state, 
     };
     $scope.getData();
   });
+
+/******  APP 控制器  ****/
+mainModule.controller('appCtrl', function($rootScope,$scope, $http, $state, $stateParams,$http ,httpService) {
+	$scope.getData = function(page) {
+		var params = "iUrl=app/list.do|iLoading=FLOAT|iParams=&module="+$stateParams.search_module+"&person="+$stateParams.search_person;
+		$rootScope.getBaseData($scope,$http,params,page);
+    };
+    $scope.getData();
+  });
+
+/******  AppVersion 控制器  ****/
+mainModule.controller('appVersionCtrl', function($rootScope,$scope, $http, $state, $stateParams,$http ,httpService) {
+	$scope.getData = function(page) {
+		var params = "iUrl=appVersion/list.do|iLoading=FLOAT|iParams=&appID="+$stateParams.appID;
+		$rootScope.getBaseData($scope,$http,params,page);
+    };
+    $scope.getData();
+  });
+

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.crap.dto.LoginInfoDto;
 import cn.crap.framework.JsonResult;
 import cn.crap.framework.MyException;
 import cn.crap.framework.auth.AuthPassport;
@@ -22,7 +23,9 @@ import cn.crap.inter.service.table.IEgmasSourceService;
 import cn.crap.model.App;
 import cn.crap.model.AppVersion;
 import cn.crap.model.EgmasSource;
+import cn.crap.utils.Const;
 import cn.crap.utils.DateFormartUtil;
+import cn.crap.utils.MyCookie;
 import cn.crap.utils.MyString;
 import cn.crap.utils.Page;
 import cn.crap.utils.Tools;
@@ -31,7 +34,7 @@ import cn.crap.utils.Tools;
 @Controller
 @RequestMapping("appVersion")
 public class AppVersionController extends BaseController<EgmasSource> {
-	
+
 	@Autowired
 	private IAppVersionService appVersionService;
 
@@ -47,14 +50,15 @@ public class AppVersionController extends BaseController<EgmasSource> {
 	@RequestMapping("/list.do")
 	@ResponseBody
 	@AuthPassport
-	public JsonResult list(@ModelAttribute AppVersion source, @RequestParam(defaultValue = "1") int currentPage) {
+	public JsonResult list(@ModelAttribute AppVersion appVersion, @RequestParam(defaultValue = "1") int currentPage) {
 		Page page = new Page(15);
 		page.setCurrentPage(currentPage);
 		Map<String, Object> returnMap = new HashMap<String, Object>();
-		returnMap.put("appVersionList", appVersionService.findByMap(null, " new AppVersion(id,createTime,status,sequence,name,url,updateTime) ", page, null));
+		Map<String, Object> map = Tools.getMap("appId", appVersion.getAppID());
+		returnMap.put("appVersionList", appVersionService.findByMap(map, page, null));
 		return new JsonResult(1, returnMap, page);
 	}
-	
+
 	@RequestMapping("/detail.do")
 	@ResponseBody
 	@AuthPassport
@@ -64,14 +68,19 @@ public class AppVersionController extends BaseController<EgmasSource> {
 			model = appVersionService.get(appVersion.getId());
 		} else {
 			model = new AppVersion();
+			model.setAppID(appVersion.getAppID());
 		}
 		return new JsonResult(1, model);
 	}
-	
+
 	@RequestMapping("/addOrUpdate.do")
 	@ResponseBody
 	public JsonResult addOrUpdate(@ModelAttribute AppVersion appVersion) throws Exception {
-		appVersion.setUpdateTime(DateFormartUtil.getDateByFormat(DateFormartUtil.YYYY_MM_DD_HH_mm_ss));
+		LoginInfoDto user = Tools.getUser();
+		if (user != null) {
+			appVersion.setCreateUserID(user.getId());
+			appVersion.setCreateUserName(user.getTrueName());
+		}
 		if (!MyString.isEmpty(appVersion.getId())) {
 			appVersionService.update(appVersion);
 		} else {
@@ -80,7 +89,7 @@ public class AppVersionController extends BaseController<EgmasSource> {
 		}
 		return new JsonResult(1, appVersion);
 	}
-	
+
 	@RequestMapping("/delete.do")
 	@ResponseBody
 	public JsonResult delete(@ModelAttribute AppVersion appVersion) throws MyException, IOException {

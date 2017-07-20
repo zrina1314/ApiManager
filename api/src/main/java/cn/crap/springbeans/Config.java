@@ -41,6 +41,9 @@ public class Config{
 	@Value("${web.fileSize}")
 	private int fileSize;
 	
+	@Value("${web.destDir}")
+	private String destDir;
+	
 	@Value("${web.imageType}")
 	private String imageType;
 	
@@ -217,6 +220,10 @@ public class Config{
 
 	public boolean isCanRepeatUrl() {
 		return canRepeatUrl;
+	}
+
+	public String getDestDir() {
+		return destDir;
 	}
 	
 }
