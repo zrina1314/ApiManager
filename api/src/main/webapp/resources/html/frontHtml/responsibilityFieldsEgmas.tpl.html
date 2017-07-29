@@ -1,0 +1,73 @@
+<div class="r0 p20 pt10 col-xs-12" ng-controller="frontResponsibilityFieldsEgmasCtrl">
+	<button type="button" class="ndis" id="fushPage" ng-click="getData(1,true);"></button>
+	<div class="col-xs-6 fl p3 pl10 pr10 f14 fb mt10 mb20 adorn-bl-3">EGMAS 后台责任田</div>
+	<div class="col-xs-12 dashed-t pt15 p0 pb10">
+		<button type="button" class="ml5 mt1 btn btn-success btn-sm fr no-radius" ng-click="downloadExcel();">
+			导出Excel
+		</button>
+		<button type="button" class="ml5 mt1 btn btn-success btn-sm fr no-radius" ng-click="getData(1);">
+			<i class="iconfont">&#xe60d;</i>&nbsp;查询
+		</button>
+		<div class="form-group w250 fr ">
+			<label class="sr-only" for="">负责人</label>
+			<div class="input-group">
+				<div class="input-group-addon no-radius">负责人</div>
+				<input class="form-control input-xs dis-in-blo w120 no-radius no-b-s" id="s_responsiblePerson" type="text" ng-model="$stateParams.responsiblePerson" required placeholder="点击输入框选择责任人" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=s_responsiblePerson|tag=responsiblePerson|code=INTERFACE_RESPONSIBILITY_PERSON|def='+$stateParams.responsiblePerson,$event)">
+			</div>
+		</div>
+		<div class="form-group w250 fr mr10">
+			<label class="sr-only" for="">功能模块</label>
+			<div class="input-group">
+				<div class="input-group-addon no-radius">功能模块</div>
+				<input class="form-control input-xs dis-in-blo w120 no-radius no-b-s" id="s_customModule" type="text" ng-model="$stateParams.customModule" required placeholder="点击输入框选择功能模块" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=s_customModule|tag=customModule|code=INTERFACE_FUNCTION_MODULE|def='+$stateParams.customModule,$event)">
+			</div>
+		</div>
+		<div class="cb"></div>
+	</div>
+	<div class="col-xs-12 dashed-t pt15 p0 pb10">
+		<font color="red">
+		PS : 此处功能模块名称是针对接口，对接口按功能进行划分，与前台（Android / IOS）的模块不一样。
+		</font>
+	</div>
+	<table class="table table-bordered f12 C555 mb5">
+		<thead>
+			<tr class="main-bg CFFF">
+				<th class="tc w100" >EGMAS开发员</th>
+				<th class="tc">责任模块</th>
+			</tr>
+		</thead>
+		<tbody ng-repeat="item in list.personMap">
+			<tr >
+				<td class="tc">{{item.personName}}</td>
+				<td class="tc" style="text-align: left;">{{item.modules}}</td>
+			</tr>
+		</tbody>
+	</table>
+	</br>
+	<table class="table table-bordered f12 C555 mb5">
+		<thead>
+			<tr class="main-bg CFFF">
+				<th class="tc w100" >功能模块名称</th>
+				<th class="tc w50">序号</th>
+				<th class="tc w70">责任人</th>
+				<th class="tc " >接口名称</th>
+				<th class="tc " >Method</th>
+				<th class="tc w130" >最后修改时间</th>
+			</tr>
+		</thead>
+		<tbody ng-repeat="item in list.interfaces">
+			<tr >
+				<td class="tc"  rowspan="{{item.resultListSize+1}}">{{item.customModule}}</td>
+			</tr>
+			<tr ng-repeat="interfaceItem in item.resultList">
+				<td class="tc">{{interfaceItem.sequence}}</td>
+				<td class="tc">{{interfaceItem.responsiblePerson}}</td>
+				<td class="tc">{{interfaceItem.interfaceName}}</td>
+				<td class="tc">{{interfaceItem.requestMethod}}</td>
+				<td class="tc">{{getDate(interfaceItem.updateTime)|date:'yyyy-MM-dd HH:mm'}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="cb"></div>
+

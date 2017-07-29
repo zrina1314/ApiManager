@@ -124,6 +124,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				templateUrl : 'resources/html/frontHtml/encrypt.tpl.html'
 			}
 		}
+	}).state('frontAppPageCtrl', {
+		url : '/responsibility/list',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/frontHtml/appPage.tpl.html'
+			}
+		}
+	}).state('frontResponsibilityFieldsEGMASCtrl', {
+		url : '/responsibility/egmas/list',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/frontHtml/responsibilityFieldsEgmas.tpl.html'
+			}
+		}
 	})
 	/*********************前端项目主页*******************/
 });

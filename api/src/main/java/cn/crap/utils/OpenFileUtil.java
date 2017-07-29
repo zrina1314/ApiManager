@@ -16,8 +16,8 @@ public class OpenFileUtil {
 	}
 
 	// 调用其他的可执行文件，例如：自己制作的exe，或是 下载 安装的软件.
-	public static void openBuddyExe(String userName, String userPwd, String operationType) throws Exception {
-		openExe(DEFAULT_BUDDY_PATH + " " + userName + " " + userPwd + " " + operationType + " true");
+	public static void openBuddyExe(String userName, String userPwd, String operationType,String registration_id) throws Exception {
+		openExe(DEFAULT_BUDDY_PATH + " " + userName + " " + userPwd + " " + operationType + " true "+registration_id);
 	}
 
 	// 调用其他的可执行文件，例如：自己制作的exe，或是 下载 安装的软件.

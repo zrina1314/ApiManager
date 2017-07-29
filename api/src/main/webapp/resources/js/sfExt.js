@@ -274,3 +274,7 @@ function uploadFileProductCallBack(msg, url) {
 		showMessage('lookUp', 'false', false, 3);
 	}
 }
+
+function openUrl(url){
+	   window.open(url,'_blank');
+}

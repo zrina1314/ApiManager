@@ -79,18 +79,18 @@ public class InterfaceEgmasService extends BaseService<InterfaceEgmas> implement
 	
 	@Override
 	@Transactional
-	public JsonResult getInterfaceListJson(Page page, List<String> moduleIds, InterfaceEgmas interFace, Integer currentPage) {
+	public JsonResult getInterfaceListJson(Page page, List<String> moduleIds, InterfaceEgmas interfaceEgmas, Integer currentPage) {
 		if (page != null) {
 			page.setCurrentPage(currentPage);
 		}
 		Map<String, Object> params = new HashMap<>();
-		if (interFace != null) {
-			params = Tools.getMap("moduleId", interFace.getModuleId(), "interfaceName|like",
-					interFace.getInterfaceName(), "url|like",
-					interFace.getUrl() == null ? "" : interFace.getUrl().trim(), "requestMethod|like",
-					interFace.getRequestMethod(), "responsiblePerson",
-					interFace.getResponsiblePerson() == null ? "" : interFace.getResponsiblePerson().trim(),
-					"customModule", interFace.getCustomModule() == null ? "" : interFace.getCustomModule().trim());
+		if (interfaceEgmas != null) {
+			params = Tools.getMap("moduleId", interfaceEgmas.getModuleId(), "interfaceName|like",
+					interfaceEgmas.getInterfaceName(), "url|like",
+					interfaceEgmas.getUrl() == null ? "" : interfaceEgmas.getUrl().trim(), "requestMethod|like",
+					interfaceEgmas.getRequestMethod(), "responsiblePerson",
+					interfaceEgmas.getResponsiblePerson() == null ? "" : interfaceEgmas.getResponsiblePerson().trim(),
+					"customModule", interfaceEgmas.getCustomModule() == null ? "" : interfaceEgmas.getCustomModule().trim());
 			if (moduleIds != null) {
 				moduleIds.add("NULL");// 防止长度为0，导致in查询报错
 				params.put("moduleId|in", moduleIds);
@@ -105,10 +105,15 @@ public class InterfaceEgmasService extends BaseService<InterfaceEgmas> implement
 		params.clear();
 		params.put("interfaces", interfaces);
 		params.put("modules", modules);
-		return new JsonResult(1, params, page,
+		
+		JsonResult resultMap =   new JsonResult(1, params, page,
 				Tools.getMap("crumbs",
-						Tools.getCrumbs("接口列表:" + cacheService.getModuleName(interFace.getModuleId()), "void"),
-						"module", cacheService.getModule(interFace.getModuleId())));
+						Tools.getCrumbs("接口列表:" + cacheService.getModuleName(interfaceEgmas.getModuleId()), "void"),
+						"module", cacheService.getModule(interfaceEgmas.getModuleId()),
+						"interfaceEgmas",interfaceEgmas
+						));
+		
+		return resultMap;
 		
 //		return new JsonResult(1, interfaces, page,
 //				Tools.getMap("crumbs", Tools.getCrumbs( module.getProjectName(), "#/"+module.getProjectId()+"/module/list", module.getName(), "void") ));

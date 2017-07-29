@@ -412,7 +412,7 @@ webModule.controller('interfaceEgmasDetailCtrl', function($rootScope,$scope, $ht
 				 $rootScope.error = null;
 				 $rootScope.model = result.data;
 				 $rootScope.versions = result.others.versions;
-				 $rootScope.errors = eval("("+result.data.errors+")");
+				 $rootScope.errors = eval("({})");
 				 
 				 // 如果param以form=开头，表示为form表单参数
 				 if(result.data.param.length>5 && result.data.param.substring(0,5)=="form="){

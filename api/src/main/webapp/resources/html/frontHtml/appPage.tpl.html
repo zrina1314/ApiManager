@@ -1,0 +1,55 @@
+<div class="r0 p20 pt10 col-xs-12" ng-controller="frontAppPageCtrl">
+	<button type="button" class="ndis" id="fushPage" ng-click="getData(1,true);"></button>
+	<div class="col-xs-6 fl p3 pl10 pr10 f14 fb mt10 mb20 adorn-bl-3">责任田</div>
+	<div class="col-xs-12 dashed-t pt15 p0 pb10">
+		<button type="button" class="ml5 mt1 btn btn-success btn-sm fr no-radius" ng-click="getData(1);">
+			<i class="iconfont">&#xe60d;</i>&nbsp;查询
+		</button>
+		<div class="form-group w200 fr ">
+			<label class="sr-only" for="">责任人</label>
+			<div class="input-group">
+				<div class="input-group-addon no-radius">责任人</div>
+				<input class="form-control input-xs dis-in-blo w120 no-radius no-b-s" id="person" type="text" ng-model="$stateParams.person" required placeholder="点击输入框选择责任人" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=person|tag=person|code=RESPONSIBILITY_PERSON|def='+$stateParams.person,$event)">
+			</div>
+		</div>
+		<div class="form-group w200 fr mr10">
+			<label class="sr-only" for="">模块名称</label>
+			<div class="input-group">
+				<div class="input-group-addon no-radius">模块名称</div>
+				<input class="form-control input-xs dis-in-blo w120 no-radius no-b-s" id="module" type="text" ng-model="$stateParams.module" required placeholder="点击输入框选择模块" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=module|tag=module|code=RESPONSIBILITY_MODULE|def='+$stateParams.module,$event)">
+			</div>
+		</div>
+		<div class="cb"></div>
+	</div>
+	<!-- appPageDesc -->
+	<div ng-include="'resources/html/subTpl/appPageDesc.tpl.html'"></div>
+	<!-- appPageDesc End -->
+	<table class="table table-bordered f12 C555 mb5">
+		<thead>
+			<tr class="main-bg CFFF">
+				<th class="tc w100" ng-click="col='module';desc=!desc">模块名称</th>
+				<th class="tc " ng-click="col='function';desc=!desc">具体页面</th>
+				<th class="tc w100" ng-click="col='android';desc=!desc">Android责任人</th>
+				<th class="tc w100" ng-click="col='ios';desc=!desc">IOS责任人</th>
+				<th class="tc w100" ng-click="col='test';desc=!desc">测试责任人</th>
+				<th class="tc w150" ng-click="col='updateTime';desc=!desc">最后修改时间</th>
+				<!-- <th>备注</th> -->
+			</tr>
+		</thead>
+		<tbody ng-repeat="item in list.sources">
+			<tr >
+				<td class="tc"  rowspan="{{item.resultListSize+1}}">{{item.module}}</td>
+			</tr>
+			<tr ng-repeat="responsibilityItem in item.resultList">
+				<td class="tc">{{responsibilityItem.function}}</td>
+				<td class="tc">{{responsibilityItem.android}}</td>
+				<td class="tc">{{responsibilityItem.ios}}</td>
+				<td class="tc">{{responsibilityItem.test}}</td>
+				<td class="tc">{{getDate(responsibilityItem.updateTime)|date:'yyyy-MM-dd HH:mm'}}</td>
+				<!-- <td class="tc">{{item.remark}}</td> -->
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="cb"></div>
+

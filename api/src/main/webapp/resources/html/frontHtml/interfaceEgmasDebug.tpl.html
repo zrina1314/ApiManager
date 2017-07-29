@@ -92,30 +92,7 @@
 						<input ng-if="model.debugMethod!='EGMAS'"type="button" class="btn btn-default btn-sm w100 mt10" value="自定义" onclick="convertDebugParamsTabe2JS()">
 					</td>
 					<td colspan="3">
-						<div id="formParamsDiv" ng-if="model.debugMethod!='EGMAS'">
-							<table class="table tableInupt" id="debugParams">
-								<thead>
-									<tr class="BGEEE C000">
-										<th class="tc w200">名称</th>
-										<th class="tc">值</th>
-										<th class="tc w50" ng-hide="true">类型</th>
-										<th class="tc">备注</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr class="lh20" ng-repeat="item in formParams">
-										<td class="tc fb C000">{{item.name}}</td>
-										<td class="tc C000 w250">
-											<input class="form-control btn-xs dis-in-tab w200 fl" type="text" name="{{item.name}}" value="{{item.def}}">
-											<span ng-if="item.necessary=='true'" class="w50 fb text-danger">*</span>
-										</td>
-										<td class="tc C000" ng-hide="true">{{item.type}}</td>
-										<td class="tc C000">{{item.remark}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="input-group w " id="customParamsDiv" ng-if="model.debugMethod=='EGMAS'">
+						<div class="input-group w " id="customParamsDiv" >
 							<textarea class="form-control no-resize" id="customParamsJS" ng-model="model.paramsJS" rows="8" placeholder="自定义参数"></textarea>
 						</div>
 					</td>

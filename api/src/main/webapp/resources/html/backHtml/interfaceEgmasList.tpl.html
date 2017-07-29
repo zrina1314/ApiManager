@@ -13,28 +13,30 @@
 			<label class="sr-only" for="">负责人</label>
 			<div class="input-group">
 				<div class="input-group-addon no-radius">负责人</div>
-				<input class="form-control input-xs dis-in-blo w120 no-radius no-b-s" id="s_responsiblePerson" type="text" ng-model="$stateParams.responsiblePerson" required placeholder="点击输入框选择责任人" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=s_responsiblePerson|tag=s_responsiblePerson|code=INTERFACE_RESPONSIBILITY_PERSON|def='+model.responsiblePerson,$event)">
+				<input class="form-control cursor" type="text"  id="responsiblePerson" required readonly ng-model="model.responsiblePerson"	  
+				   placeholder="点击输入框选择责任人"  
+				    ng-click  ="loadPickByName('iwidth=220|iheight=320|tag=responsiblePerson|code=INTERFACE_RESPONSIBILITY_PERSON|def='+model.responsiblePerson,$event)">
 			</div>
 		</div>
 		<div class="form-group w250 fr mr10 ">
 			<label class="sr-only" for="">Method</label>
 			<div class="input-group">
 				<div class="input-group-addon">Method</div>
-				<input type="text" class="form-control input-xs dis-in-blo w120" placeholder="Method" id="requestMethod" ng-model="$stateParams.requestMethod">
+				<input type="text" class="form-control input-xs dis-in-blo w120" placeholder="Method" id="requestMethod" ng-model="model.requestMethod">
 			</div>
 		</div>
 		<div class="form-group w250 fr mr10">
 			<label class="sr-only" for="">名称</label>
 			<div class="input-group">
 				<div class="input-group-addon">名称</div>
-				<input type="text" class="form-control input-xs dis-in-blo w120"	placeholder="名称" id="interfaceName">
+				<input type="text" class="form-control input-xs dis-in-blo w120"	placeholder="名称" id="interfaceName" ng-model="model.interfaceName" >
 			</div>
 		</div>
 		<div class="form-group w250 fr mr10">
 			<label class="sr-only" for="">功能模块</label>
 			<div class="input-group">
 				<div class="input-group-addon no-radius">功能模块</div>
-				<input class="form-control input-xs dis-in-blo w120 no-radius no-b-s" id="s_customModule" type="text" ng-model="$stateParams.customModule" required placeholder="点击输入框选择功能模块" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=s_customModule|tag=s_customModule|code=INTERFACE_FUNCTION_MODULE|def='+model.customModule,$event)">
+				<input class="form-control input-xs dis-in-blo w120 no-radius no-b-s" id="customModule" type="text" ng-model="model.customModule" required placeholder="点击输入框选择功能模块" ng-focus="loadPickByName('iwidth=220|iheight=320|tagName=customModule|tag=customModule|code=INTERFACE_FUNCTION_MODULE|def='+model.customModule,$event)">
 			</div>
 		</div>
 		
@@ -42,7 +44,7 @@
 			<label class="sr-only" for="">URL</label>
 			<div class="input-group">
 				<div class="input-group-addon">URL</div>
-				<input type="text" class="form-control input-xs dis-in-blo w120"
+				<input type="text" class="form-control input-xs dis-in-blo w120"  ng-model="model.url"
 					placeholder="URL" id="url">
 			</div>
 		</div>
@@ -147,8 +149,8 @@
 					ng-click="detail('拷贝【'+item.interfaceName+'】',600,'egmas/interface/detail.do?id='+item.id,'',copyInterface)" ng-hide="true"> 
 					<i class="iconfont f12">&#xe61d;拷贝</i>
 				</a>
-				<a class="f12 text-primary mr10 cursor" ng-href="index.do#/{{item.projectId}}/front/interfaceDetail/{{item.id}}" target="_blank"> 
-					<i class="iconfont f12">&#xe60a;预览</i>
+				<a class="f12 text-primary mr10 cursor" ng-href="index.do#/{{item.projectId}}/front/interfaceEgmas/debug/{{item.id}}" target="_blank"> 
+					<i class="iconfont f12">&#xe60a;调试</i>
 				</a>
 				<a class="f12 text-danger mr10 cursor" title="删除"  ng-if="showOperation('INTERFACE',$stateParams.moduleId)"
 					ng-click="del('back/interface/delete.do?id='+item.id,item.interfaceName)">
