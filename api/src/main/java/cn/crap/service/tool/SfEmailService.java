@@ -84,8 +84,8 @@ public class SfEmailService implements ISfEmailService {
 
 		EmailInfoDTO mailInfoDTO = new EmailInfoDTO();
 		String[] emailAddresses = new String[1];
-		// emailAddresses[0] = "80000807@sf-express.com";
-		emailAddresses[0] = "WXZDYFZ@sf-express.com";
+//		emailAddresses[0] = "80000807@sf-express.com";
+		 emailAddresses[0] = "WXZDYFZ@sf-express.com";
 		String content = getJenkinsEmainContent(tempJobName, buildStatus, buildUrl, uatQrImg, uatApk, productQrImg, productApk, changesSinceLastSuccess);
 
 		mailInfoDTO.setSubject(tempJobName + " - Jenkins打包结果");
@@ -117,15 +117,12 @@ public class SfEmailService implements ISfEmailService {
 	}
 
 	private String getJenkinsEmainContent(String JOB_DESCRIPTION, String buildStatus, String buildUrl, String uatQrImg, String uatApk, String productQrImg, String productApk, String changesSinceLastSuccess) {
-		String content = "" + "<style>\n" + "* {\n" + "\tmargin: 0;\n" + "\tborder: 0;\n" + "\tpadding: 0;\n" + "\tfont-family: '微软雅黑'\n" + "}\n" + "table {\n" + "\tborder-collapse: collapse;\n" + "\twidth: 650px;\n" + "\tmargin: 5px\n" + "}\n" + "tr, td, th {\n" + "\tborder: 1px solid #FFFFFF;\n"
-				+ "\theight: 30px;\n" + "\tpadding: 10px\n" + "}\n" + "th {\n" + "\tfont-size: 20px;\n" + "\tbackground: #1E90FF;\n" + "\tcolor: #FFFFFF\n" + "}\n" + "td a {\n" + "\ttext-decoration: none;\n" + "\tcolor: FFFFFF;\n" + "\ttext-align: center;\n" + "\tdisplay: block\n" + "}\n"
-				+ ".c1 {\n" + "\tcolor:#FFFFFF;\n\tfont-weight: bold;\n" + "\ttext-align: center\n" + "}\n" + ".c2 {\n\tcolor:#FFFFFF;\n\n" + "\ttext-align: center\n" + "}\n" + ".c3 {\n\tcolor:#FFFFFF;\n\n" + "\ttext-align: center\n" + "}\n" + "</style>\n"
-				+ "<table border='0' cellspacing='1' cellpadding='0'>\n" + "<tr>\n" + "  <td class='c1'>项目名称</td>\n" + "  <td colspan=\"2\" color=\"#FFFFFF\"> <font color=\"#FFFFFF\">" + JOB_DESCRIPTION + "</font></td>\n" + "</tr>\n" + "<tr>\n" + "  <td class='c1'>构建状态</td>\n"
-				+ "  <td colspan=\"2\" color=\"#FFFFFF\"> <font color=\"#FFFFFF\">" + buildStatus + "</font></td>\n" + "</tr>\n" + "<tr>\n" + "  <td class='c1' rowspan=\"2\">二维码</td>\n" + "  <td colspan=\"1\" class=\"c1 c2\">测试环境</td>\n" + "  <td colspan=\"1\" class=\"c2 c3\">生产环境</td>\n"
-				+ "</tr>\n" + "<tr>\n" + "  <td class=\"c2\"><img src='" + uatQrImg + "' width=\"220px;\" height=\"220px\"></td>\n" + "  <td class=\"c2\"><img src='" + productQrImg + "' width=\"220px;\" height=\"220px\"></td>\n" + "</tr>\n" + "<tr>\n" + "  <td class='c1'>下载地址</td>\n"
-				+ "  <td class=\"c2\"><a color=\"#FFFFFF\" href=\"" + uatApk + "\">点击下载</a></td>\n" + "  <td class=\"c3\"><a href='" + productApk + "' color=\"#FFFFFF\">点击下载</a></td>\n" + "</tr>\n"
-				+ "<!--<tr><td class='c1'>构建时间</td><td colspan=\"4\" style=\"text-align:center\">2016-09-26 19:07</td></tr>-->\n" + "<tr>\n" + "  <td class='c1'>构建日志</td>\n" + "  <td colspan=\"4\"><a color=\"#FFFFFF\" href=\"" + buildUrl + "\">点击查看</a></td>\n" + "</tr>\n" + "<table>\n" + "<br/>\n"
-				+ "<p style='font-size:16px'>代码变更信息:</p>\n" + "<div> " + changesSinceLastSuccess + " </div>\n";
+		String content = "" + "<style>\n" + ".c1 {\n" + "\tfont-size: 14px;\n\tpadding:5px;\n" + "\ttext-align: center\n" + "}\n" + ".c2 {\n" + "\ttext-align: center\n" + "}\n" + ".c3 {\n" + "\ttext-align: center\n" + "}\n" + "</style>\n"
+				+ "<table border='0' cellspacing='1' cellpadding='0'>\n" + "<tr>\n" + "  <td class='c1'>项目名称</td>\n" + "  <td colspan=\"2\" style=\"text-align:left;padding-left:5px;\"> " + JOB_DESCRIPTION + "</td>\n" + "</tr>\n" + "<tr>\n" + "  <td class='c1'>构建状态</td>\n" + "  <td colspan=\"2\" style=\"text-align:left;padding-left:5px;\">" + buildStatus + "</td>\n" + "</tr>\n"
+				+ "<tr>\n" + "  <td class='c1' rowspan=\"2\">二维码</td>\n" + "  <td colspan=\"1\" class=\"c1 c2\">测试环境</td>\n" + "  <td colspan=\"1\" class=\"c1 c2 c3\">生产环境</td>\n" + "</tr>\n" + "<tr>\n" + "  <td class=\"c2\"><img src='" + uatQrImg + "' width=\"220px;\" height=\"220px\"></td>\n"
+				+ "  <td class=\"c2\"><img src='" + productQrImg + "' width=\"220px;\" height=\"220px\"></td>\n" + "</tr>\n" + "<tr>\n" + "  <td class='c1'>下载地址</td>\n" + "  <td class=\"c2\"><a href=\"" + uatApk + "\">点击下载</a></td>\n" + "  <td class=\"c3\"><a href='" + productApk
+				+ "' >点击下载</a></td>\n" + "</tr>\n" + "<!--<tr><td class='c1'>构建时间</td><td colspan=\"4\" style=\"text-align:center\">2016-09-26 19:07</td></tr>-->\n" + "<tr>\n" + "  <td class='c1'>构建日志</td>\n" + "  <td colspan=\"4\"><a  href=\"" + buildUrl + "\">点击查看</a></td>\n" + "</tr>\n"
+				+ "<table>\n";
 		return content;
 	}
 
@@ -134,16 +131,14 @@ public class SfEmailService implements ISfEmailService {
 	}
 
 	private String getMtml(String serverIP, String title, String content) {
-		String emailTemplate = "<!DOCTYPE html>\n" + "<html>\n" + "<head>\n" + "<meta charset=\" utf-8\">\n" + "<meta name=\"author\" content=\"http://" + serverIP + "/\" />\n" + "<title>EGMAS</title>\n" + "<style type=\"text/css\">\n" + "/**\n" + " * Frosted glass effect\n" + " */\n" + "\n" + "\n"
-				+ "body {\n\tcolor:#FFFFFF;\n" + "\tmin-height: 100vh;\n" + "\tbox-sizing: border-box;\n" + "\tmargin: 0;\n" + "\tpadding-top: calc(50vh - 6em);\n" + "\tfont: 250%/1.6 Baskerville, Palatino, serif;\n" + "}\n" + "body, .main::before {\n" + "\tbackground: url(\"http://" + serverIP
-				+ "/api/resources/upload/image/emailBj2.jpg\");  \n\tbackground-attachment: fixed;\n\tbackground-size: cover;\n" + "}\n" + ".main {\n" + "\tposition: relative;\n" + "\tmargin: 0 auto;\n" + "\tpadding: 1em;\n" + "\tmax-width: 23em;\n" + "\tbackground: hsla(0,0%,100%,.25) border-box;\n" + "\toverflow: hidden;\n"
-				+ "\tborder-radius: .3em;\n" + "\tbox-shadow: 0 0 0 1px hsla(0,0%,100%,.3) inset,  0 .5em 1em rgba(0, 0, 0, 0.6);\n" + "\ttext-shadow: 0 1px 1px hsla(0,0%,100%,.3);\n" + "\twidth: 735px;\n" + "}\n" + ".main::before {\n" + "\tcontent: '';\n" + "\tposition: absolute;\n" + "\ttop: 0;\n"
-				+ "\tright: 0;\n" + "\tbottom: 0;\n" + "\tleft: 0;\n" + "\tmargin: -30px;\n" + "\tz-index: -1;\n" + "\t-webkit-filter: blur(10px);\n" + "\tfilter: blur(10px);\n" + "}\n" + "blockquote {\n" + "\tfont-style: italic;\n" + "\tmargin: 0;\n" + "\tpadding: 0;\n" + "}\n"
-				+ "blockquote cite {\n" + "\tfont-style: normal;\n" + "}\n" + ".container_title_bj {\n" + "\ttext-align: center;\n" + "\tfont-size: 25px;\n" + "}\n" + ".container_content_bj {\n" + "\twidth: auto;\n" + "\tmin-height: 260px;\n" + "\tfont-size: 20px;\n" + "}\n"
-				+ ".container_footer_bj {\n" + "\twidth: auto;\n\ttext-align: right;\n\tfont-size: 16px;\n" + "}\n" + ".author_logo {\n" + "\twidth: 150px;\n" + "\theight: 150px;\n" + "\topacity: 0.8;\n" + "\tposition: fixed;\n" + "\tright: 0px;\n" + "\tbottom: 0px;\n" + "\tbackground: url(http://"
-				+ serverIP + "/api/resources/upload/image/oneselfLogo_100x100.png) no-repeat;\n" + "}\n" + "</style>\n" + "</head>\n" + "<body>\n" + "\n" + "<div class=\"main\">\n" + "  <blockquote>\n" + "    <div class=\"container_title_bj\">\n" + "    \t" + title + "\n" + "    </div>\n"
-				+ "    <hr>\n" + "    </em>\n" + "    <div class=\"container_content_bj\" > " + content + " </div>\n" + "    </em>\n" + "    <footer>\n" + "      <div class=\"container_footer_bj\"> <a href=\"http://" + serverIP + "\" color=\"#FFFFFF\">本网站由花心大萝卜提供技术与支持</a> </div>\n"
-				+ "    </footer>\n" + "     <div class=\"author_logo\"> </div>\n" + "  </blockquote>\n" + " \n" + "</div>\n" + "</body>\n" + "</html>";
+		String emailTemplate = "<!DOCTYPE html>\n" + "<html>\n" + "<head>\n" + "<meta charset=\" utf-8\">\n" + "<meta name=\"author\" content=\"http://www.softwhy.com/\" />\n" + "<title>" + title + "</title>\n" + "<style>\n" + "* {\n" + "\tmargin: 0;\n" + "\tborder: 0;\n" + "\tpadding: 0;\n"
+				+ "\tfont-family: '微软雅黑'\n" + "}\n" +"body{	text-align:center;		}\n	.mainContainer{		margin:0 auto;		}"+ ".title {\n" + "\tfont-size: 24px;\n" + "\ttext-align: center;\n" + "\tbackground-color: #1E90FF;\n" + "\tcolor: #FFFFFF;\n" + "\tpadding: 10px\n" + "}\n" + ".welcome a {\n" + "\tfont-size: 12px;\n" + "\ttext-indent: 2em;\n"
+				+ "\tpadding-top: 5px;\n" + "\ttext-align: left;\n" + "\tpadding-bottom: 5px;\n" + "\tpadding-left: 10px;\n" + "\tpadding-right: 10px;\n" + "\tpadding: 10px\n" + "}\n" + ".footer {\n" + "\twidth: auto;\n" + "\ttext-align: right;\n" + "\tfont-size: 12px;\n" + "\tpadding: 10px\n"
+				+ "}\n" + ".footer a {\n" + "\twidth: auto;\n" + "\ttext-align: right;\n" + "\tpadding: 10px\n" + "\tfont-size: 12px;\n" + "}\n" + "table {\n" + "\tborder-collapse: collapse;\n" + "\twidth: 650px;\n" + "}\n" + "tr, td, th {\n" + "\tborder: 1px solid #1E90FF;\n"
+				+ "\tminHeight: 10px;\n" + "\t\n" + "}\n" + "th {\n" + "\tfont-size: 20px;\n" + "\tbackground: #1E90FF;\n" + "\tcolor: #fff\n" + "}\n" + "td a {\n" + "\ttext-decoration: none;\n" + "\tcolor: blue;\n" + "\ttext-align: center;\n" + "\tdisplay: block\n" + "}\n" + "</style>\n"
+				+ "</head>\n" + "<body>\n" + "<table width=\"200\" border=\"1\" class=\"mainContainer\">\n" + "  <tr>\n" + "    <td class=\"title\"><strong>" + title + "</strong></td>\n" + "  </tr>\n" + "  <tr>\n" + "    <td class=\"welcome\"><a target=\"_blank\" href=\"http://" + serverIP
+				+ "\">亲爱的各位研发小伙伴，这是一个功能比较全的网站。包含EGMAS接口测试桩、加解密处理、短信验证码查询、速运通Apk打包管理、开发文档等技术文章文献。欢迎大家多多使用，多多交流</a></td>\n" + "  </tr>\n" + "  <tr>\n" + "    <td>" + content + "</td>\n" + "  </tr>\n" + "  <tr>\n" + "    <td class=\"footer\"><a href=\"http://" + serverIP
+				+ "\" target=\"_blank\" style=\"color:#6f5499;\">本网站由花心大萝卜提供技术与支持</a></td>\n" + "  </tr>\n" + "</table>\n" + "</body>\n" + "</html>";
 		logger.debug(emailTemplate);
 		return emailTemplate;
 	}
