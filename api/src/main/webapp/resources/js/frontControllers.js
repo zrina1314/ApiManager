@@ -365,6 +365,81 @@ webModule.controller('fontInit', function($rootScope,$scope, $http, $state, $sta
 });
 
 /****************************************     以下为扩展功能    **************************************************/
+/**
+ * 接口列表
+ */
+webModule.controller('frontInterfaceCxCtrl', function($rootScope,$scope, $http, $state, $stateParams,httpService) {
+	$scope.getData = function(page,setPwd) {
+		var params = "&interfaceName=" + $stateParams.interfaceName + "&url="+ $stateParams.url + "&moduleId="+ $stateParams.moduleId;
+		//setPwd不为空，表示用户输入了密码，需要记录至cookie中
+		if(setPwd) setPassword();
+		params +="&password="+unescapeAndDecode('password');
+		params +="&visitCode="+unescapeAndDecode('visitCode');
+		params = "iUrl=front/interfaceCx/list.do|iLoading=FLOAT|iPost=true|iParams="+params;
+		$rootScope.getBaseData($scope,$http,params,page);
+    };
+    $scope.getData();
+});
+
+/**
+ * 接口详情
+ * 不需要打开模态框，所以不能调用$rootScope中的getBaseData()
+ */
+webModule.controller('interfaceCxDetailCtrl', function($rootScope,$scope, $http, $state, $stateParams,httpService) {
+	$scope.getData = function(page,setPwd) {
+		//setPwd不为空，表示用户输入了密码，需要记录至cookie中
+		if(setPwd) setPassword();
+		var params = "iUrl=front/interfaceCx/detail.do|iLoading=FLOAT|iParams=&id="+$stateParams.id;
+		params +="&password="+unescapeAndDecode('password');
+		params +="&visitCode="+unescapeAndDecode('visitCode');
+		httpService.callHttpMethod($http,params).success(function(result) {
+			var isSuccess = httpSuccess(result,'iLoading=FLOAT');
+			if(!isJson(result)||isSuccess.indexOf('[ERROR]') >= 0){
+				 $rootScope.error = isSuccess.replace('[ERROR]', '');
+				 $rootScope.model = null;
+			 }else{
+				 $rootScope.model = result.data;
+				 $rootScope.model.fullUrl = $rootScope.model.moduleUrl +  $rootScope.model.url;
+				 $rootScope.versions = result.others.versions;
+				 $rootScope.errors = eval("("+result.data.errors+")");
+				 
+				 // 如果param以form=开头，表示为form表单参数
+				 if(result.data.param.length>5 && result.data.param.substring(0,5)=="form="){
+					 $rootScope.formParams = eval("("+result.data.param.substring(5)+")");
+				 }else{
+					 $rootScope.model.customParams = result.data.param;
+					 $rootScope.formParams = null;
+				 }
+				 
+				 $rootScope.headers = eval("("+result.data.header+")");
+				 
+				 $rootScope.responseParams = eval("("+result.data.responseParam+")");
+				 $rootScope.paramRemarks = eval("("+result.data.paramRemark+")");
+				 $rootScope.others = result.others;
+				 if(result.data.method)// 调试页面默认显示method中第一个
+					 $rootScope.model.debugMethod = result.data.method.split(",")[0];
+			 }
+		});
+    };
+    $scope.getDebugResult= function() {
+    	$rootScope.model.headers = getParamFromTable("debugHeader");
+		$rootScope.model.params =getParamFromTable("debugParams");
+    	var params = "iUrl=front/interfaceCx/debug.do|iLoading=FLOAT|iPost=POST|iParams=&"+$.param($rootScope.model);
+		httpService.callHttpMethod($http,params).success(function(result) {
+			var isSuccess = httpSuccess(result,'iLoading=FLOAT');
+			if(!isJson(result)||isSuccess.indexOf('[ERROR]') >= 0){
+				 $rootScope.error = isSuccess.replace('[ERROR]', '');
+				 $rootScope.model = null;
+			 }else{
+				 $rootScope.model.debugResult = result.data.debugResult;
+				 
+				 $rootScope.jsonformat("debugResult",false);
+				 $rootScope.others = result.others;
+			 }
+		});
+    };
+    $scope.getData();
+});
 
 /**
  * 接口列表

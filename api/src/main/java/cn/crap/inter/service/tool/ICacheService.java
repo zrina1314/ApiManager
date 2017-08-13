@@ -2,6 +2,7 @@ package cn.crap.inter.service.tool;
 
 import java.util.List;
 
+import cn.crap.model.CxModule;
 import cn.crap.model.Module;
 import cn.crap.model.Project;
 import cn.crap.model.Setting;
@@ -18,8 +19,10 @@ public interface ICacheService{
 	List<Setting> getSetting();
 
 	String getModuleName(String moduleId);
-
+	String getCxModuleName(String moduleId);
 	Module getModule(String moduleId);
+	
+	CxModule getCxModule(String moduleId);
 
 	boolean delObj(String key, String field);
 

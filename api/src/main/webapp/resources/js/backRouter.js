@@ -294,6 +294,64 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				}
 			}
 		}
+	}).state('cxSourceList', {
+		url : '/cxSource/list/:directoryId/:directoryName',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/backHtml/cxSourceList.tpl.html'
+			},
+			'page@egmasSourceList' : {
+				templateUrl : 'resources/html/backHtml/page.tpl.html'
+			},
+			'detail' : {
+				templateUrl : function($stateParems){
+					return 'resources/html/backHtml/cxSourceDetail.tpl.html';
+				}
+			}
+		}
+	}).state('cxModuleList', {
+		url : '/userCx/module/list/',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/backHtml/cxModuleList.tpl.html'
+			},
+			'page@moduleList' : {
+				templateUrl : 'resources/html/backHtml/page.tpl.html'
+			},
+			'detail' : {
+				templateUrl : function($stateParems){
+					return 'resources/html/backHtml/cxModuleDetail.tpl.html';
+				}
+			}
+		}
+	}).state('interfaceCxList', {
+		url : '/cx/interface/list/',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/backHtml/interfaceCxList.tpl.html'
+			},
+			'page@interfaceCxList' : {
+				templateUrl : 'resources/html/backHtml/page.tpl.html'
+			},
+			'detail' : {
+				templateUrl : function($stateParems){
+					return 'resources/html/backHtml/interfaceCxDetail.tpl.html';
+				}
+			},
+			'interResEditorDiv@interfaceCxList' : {
+				templateUrl : 'resources/html/subTpl/interResEditorDiv.tpl.html'
+			},
+			'interFormParamDiv@interfaceCxList' : {
+				templateUrl : 'resources/html/subTpl/interFormParamDiv.tpl.html'
+			},
+			'interHeaderDiv@interfaceCxList' : {
+				templateUrl : 'resources/html/subTpl/interHeaderDiv.tpl.html'
+			},
+			'interParamRemakDiv@interfaceCxList' : {
+				templateUrl : 'resources/html/subTpl/interParamRemakDiv.tpl.html'
+			}
+			
+		}
 	}).state('appList', {
 		url : '/app/list/',
 		views : {

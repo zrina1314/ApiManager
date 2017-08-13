@@ -12,6 +12,7 @@ import cn.crap.dto.PickDto;
 import cn.crap.enumeration.ProjectType;
 import cn.crap.framework.MyException;
 import cn.crap.inter.service.table.IArticleService;
+import cn.crap.inter.service.table.ICxModuleService;
 import cn.crap.inter.service.table.IMenuService;
 import cn.crap.inter.service.table.IModuleService;
 import cn.crap.inter.service.table.IProjectService;
@@ -19,6 +20,7 @@ import cn.crap.inter.service.table.IRoleService;
 import cn.crap.inter.service.table.IUserService;
 import cn.crap.inter.service.tool.ICacheService;
 import cn.crap.inter.service.tool.IPickService;
+import cn.crap.model.CxModule;
 import cn.crap.model.Module;
 import cn.crap.model.Project;
 import cn.crap.model.User;
@@ -45,6 +47,8 @@ public class UserPickService implements IPickService{
 	private IRoleService roleService;
 	@Autowired
 	private IModuleService moduleService;
+	@Autowired
+	private ICxModuleService cxModuleService;
 	@Autowired
 	private IArticleService articleService;
 
@@ -97,6 +101,13 @@ public class UserPickService implements IPickService{
 								picks.add(pick);
 							}
 						}
+						return;
+					case "CXMODULES":
+						// 查看某个项目下的模块
+							for(CxModule m : cxModuleService.findByMap(null, null, null)){
+								pick = new PickDto(m.getId(), m.getName());
+								picks.add(pick);
+							}
 						return;
 					case "PROJECTTYPE":
 						for (ProjectType pt : ProjectType.values()) {

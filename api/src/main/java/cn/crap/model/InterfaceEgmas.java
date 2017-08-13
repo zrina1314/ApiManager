@@ -22,7 +22,7 @@ import cn.crap.utils.MyString;
 import cn.crap.utils.Tools;
 
 @Entity
-@Table(name = "interfaceegmas")
+@Table(name = "interface_egmas")
 @GenericGenerator(name = "Generator", strategy = "cn.crap.framework.IdGenerator")
 public class InterfaceEgmas  extends BaseModel implements Serializable {
 	private static final String DEFAULT_HEADER = "[{\"name\":\"deviceId\",\"necessary\":\"false\",\"type\":\"string\",\"def\":\"V5cn5ddlLPEDAADEXdVjpaTO\",\"remark\":\"\"}" + ",{\"name\":\"phoneId\",\"necessary\":\"false\",\"type\":\"string\",\"def\":\"V5cn5ddlLPEDAADEXdVjpaTO\",\"remark\":\"\"}"

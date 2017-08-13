@@ -64,6 +64,32 @@ app.config(function($stateProvider, $urlRouterProvider) {
 				}
 			}
 		}
+	}).state('frontInterfaceCxCtrl', {
+		url : '/:projectId/interfaceCx/list/:moduleId',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/frontHtml/interfaceCxList.tpl.html'
+			},
+			'page@frontInterfaceCtrl' : {
+				templateUrl : 'resources/html/frontHtml/page.tpl.html'
+			}
+		}
+	}).state('frontInterfaceCxDetailCtrl', {
+		url : '/:projectId/front/interfaceCxDetail/:id',
+		views : {
+			'main' : {
+				templateUrl : 'resources/html/frontHtml/interfaceCxDetail.tpl.html'
+			}
+		}
+	}).state('frontInterfaceCxDebugCtrl', {
+		url : '/:projectId/front/interfaceCx/debug/:id',
+		views : {
+			'main' :{
+				templateUrl : function($stateParems){
+					return 'resources/html/frontHtml/interfaceCxDebug.tpl.html';
+				}
+			}
+		}
 	}).state('frontInterfaceEgmasCtrl', {
 		url : '/:projectId/interfaceEgmas/list/:moduleId',
 		views : {
