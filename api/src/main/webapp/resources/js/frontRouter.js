@@ -65,7 +65,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		}
 	}).state('frontInterfaceCxCtrl', {
-		url : '/:projectId/interfaceCx/list/:moduleId',
+		url : '/front/interfaceCx/list/:moduleId',
 		views : {
 			'main' : {
 				templateUrl : 'resources/html/frontHtml/interfaceCxList.tpl.html'
@@ -75,14 +75,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			}
 		}
 	}).state('frontInterfaceCxDetailCtrl', {
-		url : '/:projectId/front/interfaceCxDetail/:id',
+		url : '/front/interfaceCx/detail/:id',
 		views : {
 			'main' : {
 				templateUrl : 'resources/html/frontHtml/interfaceCxDetail.tpl.html'
 			}
 		}
 	}).state('frontInterfaceCxDebugCtrl', {
-		url : '/:projectId/front/interfaceCx/debug/:id',
+		url : '/front/interfaceCx/debug/:id',
 		views : {
 			'main' :{
 				templateUrl : function($stateParems){

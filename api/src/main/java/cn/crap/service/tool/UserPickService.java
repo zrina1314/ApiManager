@@ -102,13 +102,6 @@ public class UserPickService implements IPickService{
 							}
 						}
 						return;
-					case "CXMODULES":
-						// 查看某个项目下的模块
-							for(CxModule m : cxModuleService.findByMap(null, null, null)){
-								pick = new PickDto(m.getId(), m.getName());
-								picks.add(pick);
-							}
-						return;
 					case "PROJECTTYPE":
 						for (ProjectType pt : ProjectType.values()) {
 							pick = new PickDto(pt.getType()+"", pt.getName());

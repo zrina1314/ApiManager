@@ -139,7 +139,6 @@ public class InterfaceCxController extends BaseController<InterfaceCx> {
 	public JsonResult addOrUpdate(@ModelAttribute InterfaceCx interFace) throws IOException, MyException {
 		if (MyString.isEmpty(interFace.getUrl()))
 			return new JsonResult(new MyException("000005"));
-
 		interFace.setUrl(interFace.getUrl().trim());
 
 		/**
@@ -158,7 +157,7 @@ public class InterfaceCxController extends BaseController<InterfaceCx> {
 		interFace.setUpdateTime(DateFormartUtil.getDateByFormat(DateFormartUtil.YYYY_MM_DD_HH_mm));
 
 		// 请求示例为空，则自动添加
-		if (MyString.isEmpty(interFace.getRequestExam())) {
+		if (MyString.isEmpty(interFace.getResponseParamRemark())) {
 			interfaceCxService.getInterFaceRequestExam(interFace);
 		}
 

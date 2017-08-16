@@ -51,6 +51,7 @@ public class Const {
 	public static final String CACHE_PROJECT = ":project:";
 	public static final String CACHE_MODULE = "cache:model:";
 	public static final String CACHE_CX_MODULE = "cache:cx:model:";
+	public static final String CACHE_CX_SOURCE = "cache:cx:source:";
 	public static final String CACHE_SETTING = "cache:setting";
 	public static final String CACHE_USER_MODEL = "cache:user:model";// 用户登录信息
 	public static final String CACHE_SETTINGLIST = "cache:settingList";

@@ -18,6 +18,8 @@ import cn.crap.framework.MyException;
 import cn.crap.inter.service.table.IAppPageService;
 import cn.crap.inter.service.table.IAppVersionService;
 import cn.crap.inter.service.table.IArticleService;
+import cn.crap.inter.service.table.ICxModuleService;
+import cn.crap.inter.service.table.ICxSourceService;
 import cn.crap.inter.service.table.IEgmasSourceService;
 import cn.crap.inter.service.table.IErrorService;
 import cn.crap.inter.service.table.IInterfaceEgmasService;
@@ -29,6 +31,8 @@ import cn.crap.inter.service.table.IUserService;
 import cn.crap.inter.service.tool.ICacheService;
 import cn.crap.inter.service.tool.IPickService;
 import cn.crap.model.AppVersion;
+import cn.crap.model.CxModule;
+import cn.crap.model.CxSource;
 import cn.crap.model.EgmasSource;
 import cn.crap.model.Error;
 import cn.crap.utils.Const;
@@ -66,6 +70,10 @@ public class PickService implements IPickService {
 	private IAppVersionService appVersionService;
 	@Autowired
 	private IEgmasSourceService egmasSourceService;
+	@Autowired
+	private ICxSourceService cxSourceService;
+	@Autowired
+	private ICxModuleService cxModuleService;
 	
 	@Override
 	public void getPickList(List<PickDto> picks, String code, String key, LoginInfoDto user) throws MyException {
@@ -111,11 +119,26 @@ public class PickService implements IPickService {
 			return;
 			
 		//********************************  EGMAS 扩展  ********************************************/
+		case "CXMODULES":
+			// 查看某个项目下的模块
+				for(CxModule m : cxModuleService.findByMap(null, null, null)){
+					pick = new PickDto(m.getId(), m.getName()+"</br>("+m.getUrl()+")");
+					picks.add(pick);
+				}
+			return;
 		case "EGMASSOURCE": // 枚举 EGMAS数据源 post get
 			// 先去数据库查询
 			List<EgmasSource> egmasSourceList = egmasSourceService.findByMap(null, " new EgmasSource(id,createTime,status,sequence,name,url,updateTime) ", null, null);
 			for (EgmasSource egmasSource : egmasSourceList) {
 				pick = new PickDto(egmasSource.getId(), egmasSource.getName(), egmasSource.getName());
+				picks.add(pick);
+			}
+			return;
+		case "CXSOURCE": // 枚举 CX数据源 post get
+			// 先去数据库查询
+			List<CxSource> cxSourceList = cxSourceService.findByMap(null, " new CxSource(id,createTime,status,sequence,name,url,updateTime) ", null, null);
+			for (CxSource egmasSource : cxSourceList) {
+				pick = new PickDto(egmasSource.getId(), egmasSource.getId(), egmasSource.getName());
 				picks.add(pick);
 			}
 			return;

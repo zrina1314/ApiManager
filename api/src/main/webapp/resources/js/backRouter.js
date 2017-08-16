@@ -347,10 +347,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 			'interHeaderDiv@interfaceCxList' : {
 				templateUrl : 'resources/html/subTpl/interHeaderDiv.tpl.html'
 			},
-			'interParamRemakDiv@interfaceCxList' : {
-				templateUrl : 'resources/html/subTpl/interParamRemakDiv.tpl.html'
+			'interCxParamRemakDiv@interfaceCxList' : {
+				templateUrl : 'resources/html/subTpl/interCxParamRemakDiv.tpl.html'
+			},
+			'interCxResponseParamRemakDiv@interfaceCxList' : {
+				templateUrl : 'resources/html/subTpl/interCxResponseParamRemakDiv.tpl.html'
 			}
-			
 		}
 	}).state('appList', {
 		url : '/app/list/',

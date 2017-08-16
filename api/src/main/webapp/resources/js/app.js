@@ -2,9 +2,13 @@ var app = angular.module('app', [ 'ui.router', 'mainModule','webModule','interfa
 /**
  * 由于整个应用都会和路由打交道，所以这里把$state和$stateParams这两个对象放到$rootScope上，方便其它地方引用和注入。
  * 这里的run方法只会在angular启动的时候运行一次。
- * @param  {[type]} $rootScope
- * @param  {[type]} $state
- * @param  {[type]} $stateParams
+ * 
+ * @param {[type]}
+ *            $rootScope
+ * @param {[type]}
+ *            $state
+ * @param {[type]}
+ *            $stateParams
  * @return {[type]}
  */
 app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) {
@@ -27,7 +31,7 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 		$rootScope.loadPick(event,iwidth,iheight,radio,tag,code,type,def,iparams,showType,iCallBack,iCallBackParam,tagName,iUrl);
 	}
 	$rootScope.loadPick = function loadPick(event,iwidth,iheight,radio,tag,code,type,def,params,showType,iCallBack,iCallBackParam,tagName,iUrl) { 
-		/***********加载选择对话框********************/
+		/** *********加载选择对话框******************* */
 		if(!iUrl)
 			iUrl = "pick.do";
 		if(!params)
@@ -39,7 +43,7 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 				showType=5;
 		}
 		$("#pickContent").html(loadText);
-		//事件，宽度，高度，是否为单选，html元素id，查询的code，查询的type，默认值，其他参数，回调函数，回调参数
+		// 事件，宽度，高度，是否为单选，html元素id，查询的code，查询的type，默认值，其他参数，回调函数，回调参数
 		callAjaxByName("iUrl="+iUrl+"|isHowMethod=updateDiv|iParams=&type="
 				+type+"&radio="+radio+"&code="+code+"&tag="+tag+"&tagName="+tagName+"&def="+def+params,iCallBack,iCallBackParam);
 		if(tagName)
@@ -71,7 +75,7 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 		});;
     };
 	$rootScope.detail = function(title,iwidth,iurl,iParams,callBack) {
-			//打开编辑对话框
+			// 打开编辑对话框
 			openMyDialog(title,iwidth);
 			var params = "iUrl="+iurl+"|iLoading=FLOAT";
 			if(iParams)
@@ -95,7 +99,34 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 				 
 			});;
 	};
-	//点击详情回调，清除编辑缓存页面的table
+	$rootScope.detailCxInterface = function(title,iwidth,iurl,iParams,callBack) {
+		// 打开编辑对话框
+		openMyDialog(title,iwidth);
+		var params = "iUrl="+iurl+"|iLoading=FLOAT";
+		if(iParams)
+			params += "|iParams="+iParams;
+		httpService.callHttpMethod($http,params).success(function(result) {
+			var isSuccess = httpSuccess(result,'iLoading=FLOAT');
+			if(!isJson(result)||isSuccess.indexOf('[ERROR]') >= 0){
+				 $rootScope.error = isSuccess.replace('[ERROR]', '');
+				 $rootScope.model = null;
+			 }else{
+				 $rootScope.model = result.data;
+				 $rootScope.model.paramRemarks =eval("(" +$rootScope.model.paramRemark + ")"); 
+				 $rootScope.model.responseParamRemarks =eval("(" +$rootScope.model.responseParamRemark + ")");
+				 $rootScope.error = null;
+				 $rootScope.deleteIds = ",";
+				 if(callBack)
+					 callBack();
+			 }
+		}).error(function(result) {
+			lookUp('lookUp','',100,300,3);
+			closeTip('[ERROR]未知异常，请联系开发人员查看日志', 'iLoading=PROPUP_FLOAT', 3);
+			$rootScope.error = result;
+			 
+		});;
+};
+	// 点击详情回调，清除编辑缓存页面的table
 	$rootScope.initEditInterFace = function (){
 		changeDisplay('interFaceDetail','copyInterFace');
 		$("#eparam").addClass('none');
@@ -105,7 +136,7 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 		$("#responseEparam").addClass('none');
 		$("#responseParam").removeClass('none');
 	}
-	//点击拷贝接口详情回调
+	// 点击拷贝接口详情回调
 	$rootScope.copyInterface = function() {
 		changeDisplay('copyInterFace','interFaceDetail');
 	};
@@ -122,8 +153,8 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 					 $rootScope.error = isSuccess.replace('[ERROR]', '');
 				 }else{
 					 /**
-					  * 回调刷新当前页面数据
-					  */
+						 * 回调刷新当前页面数据
+						 */
 					 $rootScope.error = null;
 					 $timeout(function() {
 						 $("#refresh").click();
@@ -159,8 +190,8 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 	
 	$rootScope.submitForm = function(iurl,callBack,myLoading){
 		/**
-		  * 回调刷新当前页面数据
-		  */
+		 * 回调刷新当前页面数据
+		 */
 		if(callBack){
 			callBack();
 		}
@@ -176,7 +207,7 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 			 }else if(result.success==1){
 				 $rootScope.error = null;
 				 $rootScope.model = result.data;
-				 //关闭编辑对话框
+				 // 关闭编辑对话框
 				 closeMyDialog('myDialog');
 				 $timeout(function() {
 					 $("#refresh").click();
@@ -188,6 +219,59 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 			 
 		});
 	}
+	
+	$rootScope.submitCxInterfaceForm = function(iurl,callBack,myLoading){
+		/**
+		 * 回调刷新当前页面数据
+		 */
+		if(callBack){
+			callBack();
+		}
+		iLoading = "TIPFLOAT";
+		if(myLoading){
+			iLoading = myLoading;
+		}
+		var json = getParamFromTable('eparamRemarkTable');
+		try {
+			eval("(" + json + ")");
+		} catch (e) {
+			alert("输入有误，json解析出错：" + e);
+			return;
+		}
+		$rootScope.model.paramRemark = json;
+		
+		var responseJson = getParamFromTable('eResponseParamRemarkTable');
+		try {
+			eval("(" + responseJson + ")");
+		} catch (e) {
+			alert("输入有误，json解析出错：" + e);
+			return;
+		}
+		$rootScope.model.responseParamRemark = responseJson;
+		
+		var params = "iUrl="+iurl+"|iLoading="+iLoading+"|iPost=POST|iParams=&"+$.param($rootScope.model);
+		httpService.callHttpMethod($http,params).success(function(result) {
+			var isSuccess = httpSuccess(result,'iLoading='+iLoading);
+			if(!isJson(result)||isSuccess.indexOf('[ERROR]') >= 0){
+				 $rootScope.error = isSuccess.replace('[ERROR]', '');
+			 }else if(result.success==1){
+				 $rootScope.error = null;
+				 $rootScope.model = result.data;
+				 // 关闭编辑对话框
+				 closeMyDialog('myDialog');
+				 $timeout(function() {
+					 $("#refresh").click();
+                 })
+			 }
+		}).error(function(result) {
+			closeTip('[ERROR]未知异常，请联系开发人员查看日志', 'iLoading='+iLoading, 3);
+			$rootScope.error = result;
+			 
+		});
+	}
+	
+	
+	
 	$rootScope.changeSequence = function(url,id,changeId){
 		var params = "iUrl="+url+"|iLoading=FLOAT|iPost=POST|iParams=&id="+id+"&changeId="+changeId;
 		httpService.callHttpMethod($http,params).success(function(result) {
@@ -196,7 +280,7 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 				 $rootScope.error = isSuccess.replace('[ERROR]', '');
 			 }else if(result.success==1){
 				 $rootScope.error = null;
-				 //关闭编辑对话框
+				 // 关闭编辑对话框
 				 $timeout(function() {
 					 $("#refresh").click();
                  })
@@ -234,7 +318,7 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 			 
 		});
 	}
-	/***********************是否显示操作按钮************/
+	/** *********************是否显示操作按钮*********** */
 	
 	$rootScope.hasError = function(error,id){
 		if(error && error!=''){
@@ -309,7 +393,7 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 	$rootScope.callAjaxByName = function(iurl){
 		callAjaxByName(iurl);
 	}
-	/**************markdown*************/
+	/** ************markdown************ */
 	$rootScope.markdownEtitor = function(href){
 		$("#markdownDialog").css('display','block'); 
 		document.getElementById("markdownFrame").src=href;
@@ -317,7 +401,7 @@ app.run(function($rootScope, $state, $stateParams, $http, $timeout,httpService) 
 	 $rootScope.iClose = function(id) {
 	    	iClose(id);
 	 };
-	 /******静态化****************/
+	 /** ****静态化*************** */
 	 $rootScope.staticize= function (id){
 			callAjaxByName('iUrl=user/staticize/staticize.do?projectId='+id+'|iLoading=TIPFLOAT静态化中，请稍后...|ishowMethod=updateDivWithImg|iFormId=staticize-form');
 	 }

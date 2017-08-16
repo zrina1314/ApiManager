@@ -12,12 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.crap.inter.dao.ICacheDao;
 import cn.crap.inter.dao.ICxModuleDao;
+import cn.crap.inter.dao.ICxSourceDao;
 import cn.crap.inter.dao.IModuleDao;
 import cn.crap.inter.dao.IProjectDao;
 import cn.crap.inter.dao.ISettingDao;
 import cn.crap.inter.dao.IUserDao;
 import cn.crap.inter.service.tool.ICacheService;
 import cn.crap.model.CxModule;
+import cn.crap.model.CxSource;
 import cn.crap.model.Module;
 import cn.crap.model.Project;
 import cn.crap.model.Setting;
@@ -36,6 +38,9 @@ public class CacheService implements ICacheService {
 	private IModuleDao dataCenterDao;
 	@Resource(name = "dataCxCenterDao")
 	private ICxModuleDao dataCxCenterDao;
+	
+	@Resource(name = "cxSourceDao")
+	private ICxSourceDao cxSourceDao;
 	@Autowired
 	private Config config;
 
@@ -228,6 +233,24 @@ public class CacheService implements ICacheService {
 
 		}
 		return (CxModule) obj;
+	}
+
+	@Override
+	public CxSource getCxSource(String sourceId) {
+		if (MyString.isEmpty(sourceId)) {
+			return new CxSource();
+		}
+
+		Object obj = getDao().getObj(Const.CACHE_CX_SOURCE + sourceId);
+		if (obj == null) {
+			CxSource module = cxSourceDao.get(sourceId);
+			if (module == null)
+				module = new CxSource();
+			getDao().setObj(Const.CACHE_CX_SOURCE + sourceId, module, config.getCacheTime());
+			return module;
+
+		}
+		return (CxSource) obj;
 	}
 
 

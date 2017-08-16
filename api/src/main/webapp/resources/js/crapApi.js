@@ -207,7 +207,7 @@ function setPick() {
 	// 回调函数
 	if (pickCallBack) {
 		if (pickCallBackParam) {
-			pickCallBack(pickCallBackParam);
+			pickCallBack(rootScope.pickCallBackParam);
 		} else {
 			pickCallBack();
 		}
@@ -215,6 +215,34 @@ function setPick() {
 	// 关闭对话框
 	iClose('lookUp');
 }
+
+function updateModuleUrl(moduleIdStr) {
+	var rootScope = getRootScope();
+	moduleIdStr = rootScope.model.moduleId;
+	var params = "iUrl=userCx/module/detail.do?id="+moduleIdStr;
+	callAjaxByName(params+'|iLoading=重新获取模块URL...|ishowMethod=return',updateModuleUrlSuccess);
+};
+
+function updateModuleUrlSuccess(result,data) {
+	data=	 eval("("+ data + ")");
+	 var url = data.data.url;
+	 $("#moduleUrl").html(url);
+};
+
+function updateSourceHost(cxSourceId) {
+	var rootScope = getRootScope();
+	cxSourceId = rootScope.model.sourceId;
+	var params = "iUrl=frontCx/source/detail.do?id="+cxSourceId;
+	callAjaxByName(params+'|iLoading=重新获取模块URL...|ishowMethod=return',updateSourceHostSuccess);
+};
+
+function updateSourceHostSuccess(result,data) {
+	data=	 eval("("+ data + ")");
+	 var url = data.data.url;
+	 $("#sourceUrl").html(url);
+};
+
+
 /** *************选中显示菜单权限则回调隐藏模块*************** */
 // 待删除
 function needHiddenModule() {

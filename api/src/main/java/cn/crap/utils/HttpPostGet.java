@@ -40,55 +40,50 @@ public class HttpPostGet {
 	public static String get(String path, Map<String, String> params, Map<String, String> headers) throws Exception {
 		return get(path, params, headers, 5000);
 	}
+
 	public static String get(String path, Map<String, String> params, Map<String, String> headers, int timeout) throws Exception {
 		path = gethPath(path, params);
 		HttpGet method = new HttpGet(path);
-		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(timeout).setConnectTimeout(timeout)
-				.setConnectionRequestTimeout(timeout).setStaleConnectionCheckEnabled(true).build();
+		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(timeout).setConnectTimeout(timeout).setConnectionRequestTimeout(timeout).setStaleConnectionCheckEnabled(true).build();
 		method.setConfig(requestConfig);
 		return getMethod(method, headers);
 	}
-	
+
 	public static String delete(String path, Map<String, String> params, Map<String, String> headers) throws Exception {
 		path = gethPath(path, params);
 		HttpDelete method = new HttpDelete(path);
-		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
-				.setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
+		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
 		method.setConfig(requestConfig);
 		return getMethod(method, headers);
 	}
-	
+
 	public static String options(String path, Map<String, String> params, Map<String, String> headers) throws Exception {
 		path = gethPath(path, params);
 		HttpOptions method = new HttpOptions(path);
-		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
-				.setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
+		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
 		method.setConfig(requestConfig);
 		return getMethod(method, headers);
 	}
-	
+
 	public static String trace(String path, Map<String, String> params, Map<String, String> headers) throws Exception {
 		path = gethPath(path, params);
 		HttpTrace method = new HttpTrace(path);
-		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
-				.setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
+		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
 		method.setConfig(requestConfig);
 		return getMethod(method, headers);
 	}
-	
+
 	public static String head(String path, Map<String, String> params, Map<String, String> headers) throws Exception {
 		path = gethPath(path, params);
 		HttpHead method = new HttpHead(path);
-		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
-				.setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
+		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
 		method.setConfig(requestConfig);
 		return getHead(method, headers);
 	}
 
 	public static String put(String path, Map<String, String> params, Map<String, String> headers) throws Exception {
 		HttpPut method = new HttpPut(path);
-		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
-				.setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
+		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
 		// 请求的参数信息传递
 		List<NameValuePair> paires = new ArrayList<NameValuePair>();
 		if (params != null) {
@@ -106,11 +101,10 @@ public class HttpPostGet {
 		method.setConfig(requestConfig);
 		return postMethod(method, params, headers);
 	}
-	
+
 	public static String post(String path, Map<String, String> params, Map<String, String> headers) throws Exception {
 		HttpPost method = new HttpPost(path);
-		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
-				.setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
+		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).setConnectionRequestTimeout(5000).setStaleConnectionCheckEnabled(true).build();
 		// 请求的参数信息传递
 		List<NameValuePair> paires = new ArrayList<NameValuePair>();
 		if (params != null) {
@@ -129,9 +123,7 @@ public class HttpPostGet {
 		return postMethod(method, params, headers);
 	}
 
-
-	private static String postMethod(HttpUriRequest method, Map<String, String> params, Map<String, String> headers)
-			throws Exception {
+	private static String postMethod(HttpUriRequest method, Map<String, String> params, Map<String, String> headers) throws Exception {
 		HttpClient client = HttpClients.createDefault();
 		method.setHeader("charset", "utf-8");
 
@@ -176,30 +168,28 @@ public class HttpPostGet {
 		String body = EntityUtils.toString(entity, "UTF-8");
 		return body;
 	}
-	
-	// 获取页面代码
-		private static String getHead(HttpUriRequest method, Map<String, String> headers) throws Exception {
-			HttpClient client = HttpClients.createDefault();
-			method.setHeader("charset", "utf-8");
-			// 默认超时时间为15s。
-			if (headers != null) {
-				Set<String> keys = headers.keySet();
-				Iterator<String> iterator = keys.iterator();
-				while (iterator.hasNext()) {
-					String key = (String) iterator.next();
-					method.setHeader(key, headers.get(key));
-				}
-			}
-			HttpResponse response = client.execute(method);
-			Header[] responseHeaders = response.getAllHeaders();
-			StringBuilder sb = new StringBuilder("");
-			for(Header h:responseHeaders){
-				sb.append(h.getName()+":"+h.getValue()+"\r\n");
-			}
-			return sb.toString();
-		}
 
-	
+	// 获取页面代码
+	private static String getHead(HttpUriRequest method, Map<String, String> headers) throws Exception {
+		HttpClient client = HttpClients.createDefault();
+		method.setHeader("charset", "utf-8");
+		// 默认超时时间为15s。
+		if (headers != null) {
+			Set<String> keys = headers.keySet();
+			Iterator<String> iterator = keys.iterator();
+			while (iterator.hasNext()) {
+				String key = (String) iterator.next();
+				method.setHeader(key, headers.get(key));
+			}
+		}
+		HttpResponse response = client.execute(method);
+		Header[] responseHeaders = response.getAllHeaders();
+		StringBuilder sb = new StringBuilder("");
+		for (Header h : responseHeaders) {
+			sb.append(h.getName() + ":" + h.getValue() + "\r\n");
+		}
+		return sb.toString();
+	}
 
 	public static String postBody(String url, String body, Map<String, String> headers) throws Exception {
 		HttpClient client = HttpClients.createDefault();
@@ -213,7 +203,7 @@ public class HttpPostGet {
 				httppost.setHeader(key, headers.get(key));
 			}
 		}
-		
+
 		BasicHttpEntity requestBody = new BasicHttpEntity();
 		requestBody.setContent(new ByteArrayInputStream(body.getBytes("UTF-8")));
 		requestBody.setContentLength(body.getBytes("UTF-8").length);
@@ -222,6 +212,31 @@ public class HttpPostGet {
 		HttpResponse response = client.execute(httppost);
 		HttpEntity entity = response.getEntity();
 		return EntityUtils.toString(entity, "UTF-8");
+	}
+
+	public static String postBodyCx(String url, String body, Map<String, String> headers) throws Exception {
+		HttpClient client = HttpClients.createDefault();
+		HttpPost httppost = new HttpPost(url);
+		httppost.setHeader("charset", "utf-8");
+		if (headers != null) {
+			Set<String> keys = headers.keySet();
+			Iterator<String> iterator = keys.iterator();
+			while (iterator.hasNext()) {
+				String key = (String) iterator.next();
+				httppost.setHeader(key, headers.get(key));
+			}
+		}
+
+		BasicHttpEntity requestBody = new BasicHttpEntity();
+		requestBody.setContentType("application/json; charset=utf-8");
+		requestBody.setContent(new ByteArrayInputStream(body.getBytes("UTF-8")));
+		requestBody.setContentLength(body.getBytes("UTF-8").length);
+		httppost.setEntity(requestBody);
+		// 执行客户端请求
+		HttpResponse response = client.execute(httppost);
+		HttpEntity entity = response.getEntity();
+		String tempResult = EntityUtils.toString(entity, "UTF-8");
+		return tempResult;
 	}
 
 	private static String gethPath(String path, Map<String, String> params) throws UnsupportedEncodingException {
@@ -235,10 +250,10 @@ public class HttpPostGet {
 			Iterator<String> iterator = keys.iterator();
 			while (iterator.hasNext()) {
 				String key = (String) iterator.next();
-				path += key + "=" +URLEncoder.encode(params.get(key), "UTF-8")  + "&";
+				path += key + "=" + URLEncoder.encode(params.get(key), "UTF-8") + "&";
 			}
-			if(path.endsWith("&"))
-				path = path.substring(0, path.length()-1);
+			if (path.endsWith("&"))
+				path = path.substring(0, path.length() - 1);
 		}
 		return path;
 	}
@@ -250,8 +265,7 @@ public class HttpPostGet {
 		conn.setRequestMethod("GET");
 		conn.setConnectTimeout(3 * 1000);
 		conn.setRequestProperty("Accept-Language", "zh-CN");
-		conn.setRequestProperty("User-Agent",
-				"User-Agent:Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36");
+		conn.setRequestProperty("User-Agent", "User-Agent:Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36");
 		conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 		conn.setRequestProperty("Connection", "Keep-Alive");
 		conn.setUseCaches(false);// 不进行缓存

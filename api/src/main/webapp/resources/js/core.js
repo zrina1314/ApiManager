@@ -102,6 +102,7 @@ function callAjax(iUrl, iFormId, iPost, isHowMethod, iLoading, iTarget,
 				data : xParams + iParams,
 				complete : function(data) {
 					data = data.responseText;
+					var tempDate= data;
 					/*************未登录或发生未知错误********************/
 					if(data.indexOf('[ERRORPAGE]') >= 0){
 						data = "[ERROR]抱歉，系统繁忙，请稍后再试！";
@@ -171,9 +172,9 @@ function callAjax(iUrl, iFormId, iPost, isHowMethod, iLoading, iTarget,
 					}
 					if (iCallBack) {
 							if (iCallBackParam) {
-								iCallBack(data,iCallBackParam);
+								iCallBack(data,iCallBackParam,tempDate);
 							} else {
-								iCallBack(data);
+								iCallBack(data,tempDate);
 							}
 					}
 					//100需自行处理提示信息

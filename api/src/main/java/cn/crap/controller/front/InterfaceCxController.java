@@ -42,9 +42,11 @@ import cn.crap.utils.Html2Pdf;
 import cn.crap.utils.HttpPostGet;
 import cn.crap.utils.MyString;
 import cn.crap.utils.Page;
+import cn.crap.utils.StringUtils;
 import cn.crap.utils.Tools;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 
 @Controller("frontInterfaceCxController")
 @RequestMapping("/front/interfaceCx")
@@ -170,7 +172,7 @@ public class InterfaceCxController extends BaseController<InterfaceCx> {
 		Page page = new Page(15);
 		page.setCurrentPage(currentPage);
 
-		List<InterfaceCx> interfaces = interfaceCxService.findByMap(Tools.getMap("moduleId", moduleId, "interfaceName|like", interfaceName, "fullUrl|like", url), " new InterfaceCx(id,moduleId,interfaceName,version,createTime,updateBy,updateTime,remark,sequence)", page, null);
+		List<InterfaceCx> interfaces = interfaceCxService.findByMap(Tools.getMap("moduleId", moduleId, "interfaceName|like", interfaceName, "fullUrl|like", url), " new InterfaceCx(id,moduleId,interfaceName,version,createTime,updateBy,updateTime,remark,sequence,template,url)", page, null);
 
 		if (dCrumbDtos != null) {
 			return new JsonResult(1, interfaces, page, Tools.getMap("crumbs", dCrumbDtos));
@@ -203,54 +205,37 @@ public class InterfaceCxController extends BaseController<InterfaceCx> {
 
 	@RequestMapping("/debug.do")
 	@ResponseBody
-	public JsonResult debug(@RequestParam String params, @RequestParam String headers, @RequestParam(defaultValue = "") String customParams, @RequestParam String debugMethod, @RequestParam String fullUrl) throws Exception {
-
-		JSONArray jsonParams = JSONArray.fromObject(params);
-		JSONArray jsonHeaders = JSONArray.fromObject(headers);
-		Map<String, String> httpParams = new HashMap<String, String>();
-		for (int i = 0; i < jsonParams.size(); i++) {
-			JSONObject param = jsonParams.getJSONObject(i);
-			for (Object paramKey : param.keySet()) {
-				if (fullUrl.contains("{" + paramKey.toString() + "}")) {
-					fullUrl = fullUrl.replace("{" + paramKey.toString() + "}", param.getString(paramKey.toString()));
-				} else {
-					httpParams.put(paramKey.toString(), param.getString(paramKey.toString()));
-				}
-
-			}
-		}
-
+	public JsonResult debug(@RequestParam(defaultValue = "") String sourceUrl, @RequestParam String header, @RequestParam(defaultValue = "") String customParams, @RequestParam(defaultValue = "POST") String debugMethod, @RequestParam String fullUrl) throws Exception {
+		fullUrl = sourceUrl + fullUrl;
 		Map<String, String> httpHeaders = new HashMap<String, String>();
-		for (int i = 0; i < jsonHeaders.size(); i++) {
-			JSONObject param = jsonHeaders.getJSONObject(i);
-			for (Object paramKey : param.keySet()) {
-				httpHeaders.put(paramKey.toString(), param.getString(paramKey.toString()));
+		try {
+			if (header != null && "" != header) {
+				if ("[".equals(header.substring(0, 1))) {
+					JSONArray jsonHeaders = JSONArray.fromObject(header);
+					for (int i = 0; i < jsonHeaders.size(); i++) {
+						JSONObject param = jsonHeaders.getJSONObject(i);
+						for (Object paramKey : param.keySet()) {
+							httpHeaders.put(paramKey.toString(), param.getString(paramKey.toString()));
+						}
+					}
+				} else {
+					JSONObject headersJsObject = JSONObject.fromObject(header);
+					for (Object paramKey : headersJsObject.keySet()) {
+						httpHeaders.put(paramKey.toString(), headersJsObject.getString(paramKey.toString()));
+					}
+				}
 			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 		// 如果自定义参数不为空，则表示需要使用post发送自定义包体
-		if (!MyString.isEmpty(customParams)) {
-			return new JsonResult(1, Tools.getMap("debugResult", HttpPostGet.postBody(fullUrl, customParams, httpHeaders)));
-		}
-
 		try {
-			switch (debugMethod) {
-			case "POST":
-				return new JsonResult(1, Tools.getMap("debugResult", HttpPostGet.post(fullUrl, httpParams, httpHeaders)));
-			case "GET":
-				return new JsonResult(1, Tools.getMap("debugResult", HttpPostGet.get(fullUrl, httpParams, httpHeaders)));
-			case "PUT":
-				return new JsonResult(1, Tools.getMap("debugResult", HttpPostGet.put(fullUrl, httpParams, httpHeaders)));
-			case "DELETE":
-				return new JsonResult(1, Tools.getMap("debugResult", HttpPostGet.delete(fullUrl, httpParams, httpHeaders)));
-			case "HEAD":
-				return new JsonResult(1, Tools.getMap("debugResult", HttpPostGet.head(fullUrl, httpParams, httpHeaders)));
-			case "OPTIONS":
-				return new JsonResult(1, Tools.getMap("debugResult", HttpPostGet.options(fullUrl, httpParams, httpHeaders)));
-			case "TRACE":
-				return new JsonResult(1, Tools.getMap("debugResult", HttpPostGet.trace(fullUrl, httpParams, httpHeaders)));
-			default:
-				return new JsonResult(1, Tools.getMap("debugResult", "不支持的请求方法：" + debugMethod));
+			String tempResult =  HttpPostGet.postBodyCx(fullUrl, customParams, httpHeaders);
+			if (StringUtils.isEmpty(tempResult)) {
+				tempResult = "服务器返回结果为空";
 			}
+			return new JsonResult(1, Tools.getMap("debugResult",tempResult));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new JsonResult(1, Tools.getMap("debugResult", "调试出错\r\nmessage:" + e.getMessage()));

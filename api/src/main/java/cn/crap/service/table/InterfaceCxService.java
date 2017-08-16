@@ -110,7 +110,7 @@ public class InterfaceCxService extends BaseService<InterfaceCx>
 	@Override
 	@Transactional
 	public void getInterFaceRequestExam(InterfaceCx interFaceCx) {
-			interFaceCx.setRequestExam("请求地址:"+interFaceCx.getModuleUrl()+interFaceCx.getUrl()+"\r\n");
+			interFaceCx.setResponseParamRemark("请求地址:"+interFaceCx.getModuleUrl()+interFaceCx.getUrl()+"\r\n");
 			
 			// 请求头
 			JSONArray headers = JSONArray.fromObject(interFaceCx.getHeader());
@@ -130,7 +130,7 @@ public class InterfaceCxService extends BaseService<InterfaceCx>
 					 for(int i=0;i<params.size();i++){  
 							obj = (JSONObject) params.get(i);
 							if(obj.containsKey("inUrl") && obj.getString("inUrl").equals("true")){
-								interFaceCx.setRequestExam(interFaceCx.getRequestExam().replace("{"+obj.getString("name")+"}", (obj.containsKey("def")?obj.getString("def"):"")));
+								interFaceCx.setResponseParamRemark(interFaceCx.getResponseParamRemark().replace("{"+obj.getString("name")+"}", (obj.containsKey("def")?obj.getString("def"):"")));
 							}else{
 								strParams.append("\t"+obj.getString("name") + "=" + (obj.containsKey("def")?obj.getString("def"):"")+"\r\n");
 							}
@@ -139,7 +139,7 @@ public class InterfaceCxService extends BaseService<InterfaceCx>
 					strParams.append(interFaceCx.getParam()); 
 				}
 			}
-			interFaceCx.setRequestExam(interFaceCx.getRequestExam()+strHeaders.toString()+strParams.toString());
+			interFaceCx.setResponseParamRemark(interFaceCx.getResponseParamRemark()+strHeaders.toString()+strParams.toString());
 	}
 
 	@Override

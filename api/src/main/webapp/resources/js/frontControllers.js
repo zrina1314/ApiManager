@@ -370,6 +370,11 @@ webModule.controller('fontInit', function($rootScope,$scope, $http, $state, $sta
  */
 webModule.controller('frontInterfaceCxCtrl', function($rootScope,$scope, $http, $state, $stateParams,httpService) {
 	$scope.getData = function(page,setPwd) {
+		
+		if($("#sModuleId").val()!=null&&$("#sModuleId").val()!=''){
+			$stateParams.moduleId = $("#sModuleId").val();
+		}
+		
 		var params = "&interfaceName=" + $stateParams.interfaceName + "&url="+ $stateParams.url + "&moduleId="+ $stateParams.moduleId;
 		//setPwd不为空，表示用户输入了密码，需要记录至cookie中
 		if(setPwd) setPassword();

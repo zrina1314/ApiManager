@@ -24,6 +24,25 @@ import cn.crap.utils.Tools;
 @Table(name = "interface_cx")
 @GenericGenerator(name = "Generator", strategy = "cn.crap.framework.IdGenerator")
 public class InterfaceCx extends BaseModel implements Serializable, ILuceneDto {
+
+	private static final String DEFAULT_HEADER ="{\n" +
+            "    \"deviceId\":\"V5cn5ddlLPEDAADEXdVjpaTO\",\n" +
+            "    \"phoneId\":\"V5cn5ddlLPEDAADEXdVjpaTO\",\n" +
+            "    \"mediaCode\":\"ANDROID.APP\",\n" +
+            "    \"systemCode\":\"ANDROID.APP\",\n" +
+            "    \"platform\":\"Android\",\n" +
+            "    \"langCode\":\"sc\",\n" +
+            "    \"systemVersion\":\"6.0.1\",\n" +
+            "    \"countryCode\":\"CN\",\n" +
+            "    \"Content-Type\":\"application/json\",\n" +
+            "    \"client_ver\":\"8.2.0\",\n" +
+            "    \"screen_size\":\"1440x2560\",\n" +
+            "    \"protocol_ver\":\"334\",\n" +
+            "    \"region_code\":\"CN\",\n" +
+            "    \"language_code\":\"zh_CN\",\n" +
+            "    \"model\":\"Le X820\"\n" +
+            "}\n";
+
 	/**
 	 * 
 	 */
@@ -31,7 +50,7 @@ public class InterfaceCx extends BaseModel implements Serializable, ILuceneDto {
 	private String url;
 	private String method;
 	private String param;
-	private String requestExam;
+	private String responseParamRemark;
 	private String responseParam;
 	private String errorList;
 	private String trueExam;
@@ -87,14 +106,15 @@ public class InterfaceCx extends BaseModel implements Serializable, ILuceneDto {
 		dto.setModuleName(getModuleName());
 		dto.setTitle(interfaceName);
 		dto.setType(InterfaceCx.class.getSimpleName());
-		dto.setUrl("#/front/interfaceCxDetail/" + id);
+		dto.setUrl("#/front/interfaceCx/detail/" + id);
 		dto.setVersion(version);
 		dto.setHref(getFullUrl());
-//		dto.setProjectId(getProjectId());
-//		// 私有项目不能建立索引
-//		if (cacheService.getProject(getProjectId()).getType() == ProjectType.PRIVATE.getType()) {
-//			dto.setNeedCreateIndex(false);
-//		}
+		// dto.setProjectId(getProjectId());
+		// // 私有项目不能建立索引
+		// if (cacheService.getProject(getProjectId()).getType() ==
+		// ProjectType.PRIVATE.getType()) {
+		// dto.setNeedCreateIndex(false);
+		// }
 		return dto;
 
 	}
@@ -117,6 +137,25 @@ public class InterfaceCx extends BaseModel implements Serializable, ILuceneDto {
 		ICacheService cacheService = SpringContextHolder.getBean("cacheService", CacheService.class);
 		CxModule module = cacheService.getCxModule(moduleId);
 		return MyString.isEmpty(module.getUrl()) ? "" : module.getUrl();
+	}
+
+	@Transient
+	public String getSourceId() {
+		return "b077b397-d151-4c39-a7a7-1f2cfa0f5470";
+	}
+
+	@Transient
+	public String getSourceUrl() {
+		ICacheService cacheService = SpringContextHolder.getBean("cacheService", CacheService.class);
+		CxSource module = cacheService.getCxSource("b077b397-d151-4c39-a7a7-1f2cfa0f5470");
+		return MyString.isEmpty(module.getUrl()) ? "" : module.getUrl();
+	}
+
+	@Transient
+	public String getSourceName() {
+		ICacheService cacheService = SpringContextHolder.getBean("cacheService", CacheService.class);
+		CxSource module = cacheService.getCxSource("b077b397-d151-4c39-a7a7-1f2cfa0f5470");
+		return MyString.isEmpty(module.getName()) ? "" : module.getName();
 	}
 
 	@Column(name = "errors")
@@ -149,7 +188,7 @@ public class InterfaceCx extends BaseModel implements Serializable, ILuceneDto {
 	@Column(name = "param")
 	public String getParam() {
 		if (MyString.isEmpty(param))
-			return "form=[]";
+			return "{}";
 		return param;
 	}
 
@@ -168,13 +207,13 @@ public class InterfaceCx extends BaseModel implements Serializable, ILuceneDto {
 		this.paramRemark = paramRemark;
 	}
 
-	@Column(name = "requestExam")
-	public String getRequestExam() {
-		return requestExam;
+	@Column(name = "responseParamRemark")
+	public String getResponseParamRemark() {
+		return responseParamRemark;
 	}
 
-	public void setRequestExam(String requestExam) {
-		this.requestExam = requestExam;
+	public void setResponseParamRemark(String responseParamRemark) {
+		this.responseParamRemark = responseParamRemark;
 	}
 
 	@Column(name = "responseParam")
@@ -271,7 +310,7 @@ public class InterfaceCx extends BaseModel implements Serializable, ILuceneDto {
 	@Column(name = "header")
 	public String getHeader() {
 		if (MyString.isEmpty(header))
-			return "[]";
+			return DEFAULT_HEADER;
 		return header;
 	}
 

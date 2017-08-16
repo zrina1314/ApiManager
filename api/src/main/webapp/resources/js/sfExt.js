@@ -68,6 +68,9 @@ function disposeHeaderToJson(header) {
 }
 
 
+
+
+
 /*   
  * MAP对象，实现MAP功能   
  *   

@@ -15,7 +15,8 @@
 			<i class="iconfont">&#xe610;</i>
 			&nbsp;查询
 		</button>
-		<div class="form-group w200 fr">
+
+		<div class="form-group w300 fr">
 			<label class="sr-only" for="">名称</label>
 			<div class="input-group">
 				<div class="input-group-addon">名称</div>
@@ -27,6 +28,14 @@
 			<div class="input-group">
 				<div class="input-group-addon">URL</div>
 				<input type="text" class="form-control input-xs dis-in-blo w120" placeholder="URL" id="url">
+			</div>
+		</div>
+		<div class="form-group w250 fr mr10">
+			<label class="sr-only" for="">模块</label>
+			<div class="input-group">
+				<div class="input-group-addon">模块</div>
+				<input class="form-control cursor" type="text" id="sModuleName" required readonly ng-click="loadPickByName('iwidth=220|iheight=250|tagName=sModuleName|tag=sModuleId|code=CXMODULES|def='+model.moduleId+'|params=&key='+model.projectId,$event)">
+				<input ng-hide="true" class="form-control cursor" type="text" id="sModuleId">
 			</div>
 		</div>
 		<div class="cb"></div>
@@ -70,29 +79,16 @@
 					<td class="tc">{{item.updateBy}}</td>
 					<td class="tc">{{getDate(item.updateTime)|date:'yyyy-MM-dd HH:mm'}}</td>
 					<td class="tc">
-						<a class="f12 text-primary mr10 cursor" ng-if="showOperation('PROJECT',$stateParams.projectId)" ng-click="detail('编辑【'+item.interfaceName+'】',1100,'cx/interface/detail.do?id='+item.id,'',initEditInterFace)">
+						<a class="f12 text-primary mr10 cursor" ng-if="showOperation('PROJECT',$stateParams.projectId)" ng-click="detailCxInterface('编辑【'+item.interfaceName+'】',1100,'cx/interface/detail.do?id='+item.id,'',initEditInterFace)">
 							<i class="iconfont f12">&#xe618;修改</i>
 						</a>
-						<!-- 			<a class="f12 text-primary mr10 cursor" ng-if="showOperation('PROJECT',$stateParams.projectId)"
-					ng-click="detail('拷贝【'+item.interfaceName+'】',600,'cx/interface/detail.do?id='+item.id,'',copyInterface)"> 
-					<i class="iconfont f12">&#xe61d;拷贝</i>
-				</a> -->
-						<a class="f12 text-primary mr10 cursor" ng-href="index.do#/{{item.projectId}}/cx/interfaceDetail/{{item.id}}" target="_blank">
+						<a class="f12 text-primary mr10 cursor" ng-href="index.do#front/interfaceCx/detail/{{item.id}}" target="_blank">
 							<i class="iconfont f12">&#xe60a;预览</i>
 						</a>
-						<a class="f12 text-primary mr10 cursor" ng-href="index.do#/{{item.projectId}}/cx/interface/debug/{{item.id}}" target="_blank">
+						<a class="f12 text-primary mr10 cursor" ng-href="index.do#front/interfaceCx/debug/{{item.id}}" target="_blank">
 							<i class="iconfont">&#xe625;&nbsp;</i>
 							调试
 						</a>
-						<!-- 				<a class="f12 text-danger mr10 cursor" ng-if="showOperation('PROJECT',$stateParams.projectId)"
-					ng-click="sendRequest('user/module/setTemplate.do?id='+item.id)">
-					<i class="iconfont f12"  ng-if="item.template">&#xe63d;取消模板</i>
-					<i class="iconfont f12 text-success"  ng-if="!item.template">&#xe63d;设置模板</i>
-				</a> -->
-						<!-- 			<a class="f12 text-primary mr10 cursor" ng-if="showOperation('LOG','');"  ng-href="admin.do#/log/list/{{item.id}}">
-					<i class="iconfont">&#xe62b;&nbsp;</i>操作日志
-				</a> -->
-
 						<a class="f12 text-danger mr10 cursor" title="删除" ng-if="showOperation('PROJECT',$stateParams.projectId)" ng-click="del('cx/interface/delete.do?id='+item.id,item.interfaceName)">
 							<i class="iconfont f12">&#xe60e;删除</i>
 						</a>
